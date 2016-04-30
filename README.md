@@ -9,3 +9,9 @@ Create a RESTful service with ES6 decorators for your express based node.js appl
 
 **Status**
 In development. Not ready for use!
+
+
+**Installation**
+```bash
+npm install js-restful-express --save
+```
