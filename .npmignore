@@ -37,14 +37,3 @@ typings/
 
 #webstorm configuration
 .idea/
-
-#generated files
-src/**/*.js
-*.js.map
-*.d.ts
-
-#code coverage
-coverage/
-
-#generated docs
-out/

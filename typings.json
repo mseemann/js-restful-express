@@ -1,0 +1,9 @@
+{
+  "version": false,
+  "ambientDependencies": {
+    "reflect-metadata": "github:rbuckton/ReflectDecorators/reflect-metadata.d.ts#1affc8fcd1301caac47602e3738b057ecfd88830"
+  },
+  "ambientDevDependencies": {
+    "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#dd638012d63e069f2c99d06ef4dcc9616a943ee4"
+  }
+}
