@@ -12,6 +12,8 @@
   },
   "ambientDevDependencies": {
     "chai": "registry:dt/chai#3.4.0+20160317120654",
-    "mocha": "registry:dt/mocha#2.2.5+20160317120654"
+    "mocha": "registry:dt/mocha#2.2.5+20160317120654",
+    "superagent": "registry:dt/superagent#1.4.0+20160317120654",
+    "supertest": "registry:dt/supertest#1.1.0+20160317120654"
   }
 }

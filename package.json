@@ -8,6 +8,7 @@
     "install_typings": "typings install",
     "pretest": "typings install && tsc",
     "test": "istanbul cover node_modules/mocha/bin/_mocha --report lcov -x '*.spec.*'  -- -c --check-leaks --require ts-node/register --recursive --reporter spec src/**/*.spec.ts",
+    "quicktest": "mocha -c --check-leaks --require ts-node/register --recursive --reporter spec src/**/*.spec.ts",
     "prepublish": "typings install && tsc",
     "docs": "jsdoc -c config/jsdoc-conf.json -r src"
   },
@@ -40,6 +41,7 @@
     "jsdoc": "^3.4.0",
     "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.2.0",
+    "supertest": "^1.2.0",
     "ts-node": "^0.7.2",
     "tslint": "3.8.1",
     "typescript": "1.8.10",
