@@ -12,12 +12,29 @@ export class ExpressServiceRegistry {
         res.header("Content-Type", "text/plain");
     }
 
+    static convertRawParamToMethoParam(service, method, pathParam, rawParam){
+        // try to figure out what the method signature expects
+        let paramTypes = Reflect.getMetadata('design:paramtypes', service, method.methodName);
+        if(paramTypes && paramTypes.length >= pathParam.index){
+            // this is a constructor function of the expected type
+            let paramType = paramTypes[pathParam.index];
+            let expectedValue = paramType(rawParam);
+            return expectedValue;
+        } else {
+            // ther is no way to figure out what the expected type is - pass it as string
+            return rawParam;
+        }
+    }
+
     static registerService(app: express.Application, service:any){
+        
+        
 
         if(typeof service === 'function'){
             throw new TypeError('A type is not allowed - only an object can be registered');
         }
 
+        // create a registry at app level
         app.locals.registeredServices = app.locals.registeredServices || [];
 
         // check if the service is not already registered at this app
@@ -30,7 +47,7 @@ export class ExpressServiceRegistry {
 
         let descriptions = ServiceParser.parse(service);
         let router = express.Router();
-        
+
         descriptions.methods.forEach( (method) => {
             // create a http method name from the enum. the enum are capitalized http method
             // - so, convert to string and convert to lowercase is enough.
@@ -40,21 +57,23 @@ export class ExpressServiceRegistry {
 
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 var args = [];
-                args.length = method.pathParams.length;
+
+                args.length = method.pathParams.length + method.headerParams.length + method.queryParams.length;
+
                 method.pathParams.forEach( (pathParam) => {
                     // this is always a string
-                    let param = req.params[pathParam.paramName];
-                    // try to figure out what the method signature expects
-                    let paramTypes = Reflect.getMetadata('design:paramtypes', service, method.methodName);
-                    if(paramTypes && paramTypes.length >= pathParam.index){
-                        // this is a constructor function of the expected type
-                        let paramType = paramTypes[pathParam.index];
-                        let expectedValue = paramType(param);
-                        args[pathParam.index] = expectedValue;
-                    } else {
-                        // ther is no way to figure out what the expected type is - pass it as string
-                        args[pathParam.index] = param;
-                    }
+                    let rawParam = req.params[pathParam.paramName];
+                    args[pathParam.index] = this.convertRawParamToMethoParam(service, method, pathParam, rawParam);
+                })
+
+                method.headerParams.forEach( (headerParam) => {
+                    let rawParam = req.header(headerParam.paramName);
+                    args[headerParam.index] = this.convertRawParamToMethoParam(service, method, headerParam, rawParam);
+                })
+
+                method.queryParams.forEach( (queryParam) => {
+                    let rawParam = req.query[queryParam.paramName];
+                    args[queryParam.index] = this.convertRawParamToMethoParam(service, method, queryParam, rawParam);
                 })
 
                 let methodToCall =service[method.methodName];

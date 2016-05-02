@@ -2,7 +2,7 @@ import { ExpressServiceRegistry } from './service-registry';
 import * as express from 'express';
 import {expect} from 'chai';
 import * as request from 'supertest';
-import { Path, GET, PathParam } from 'js-restful';
+import { Path, GET, PathParam, HeaderParam, QueryParam } from 'js-restful';
 
 let anyBook = {a:'b'};
 
@@ -49,6 +49,11 @@ class TestService {
         return {id:id};
     }
 
+    @GET()
+    @Path('/test/:id')
+    getWith3Param(@PathParam('id') id:number, @QueryParam('plain') plain:boolean, @HeaderParam('token') token: string){
+        return {id:id, plain:plain, token:token};
+    }
 }
 
 class TestServiceB{
@@ -111,18 +116,6 @@ describe('service-registry: HTTP GET methods', () => {
             checkDefaultsJson(err, res, done);
 
             expect(res.body).to.eql([anyBook]);
-
-            done();
-        });
-    })
-
-    it('should test a GET method with a path and a param', (done) => {
-
-        request.agent(app).get('/books/1').end((err:any, res: request.Response) => {
-
-            checkDefaultsJson(err, res, done);
-
-            expect(res.body).to.eql({id:1});
 
             done();
         });
@@ -191,11 +184,28 @@ describe('service-registry: HTTP GET methods', () => {
         });
     })
 
+    it('should test a GET method with a path and three params', (done) => {
+
+        request.agent(app)
+            .get('/books/test/1?plain=true')
+            .set('token', 'token-value')
+            .end((err:any, res: request.Response) => {
+
+                checkDefaultsJson(err, res, done);
+                // now it should not be a number - it should be a string
+                expect(res.body).to.eql({id:1, plain:true, token:"token-value"});
+
+                done();
+            });
+    })
+
     it('should call a GET method with paramater type string if there is no type information available', (done) => {
         // remove the type annotations from the method in question
         let r = Reflect.defineMetadata('design:paramtypes', null, testService, 'getWithParam');
 
-        request.agent(app).get('/books/1').end((err:any, res: request.Response) => {
+        request.agent(app)
+            .get('/books/1')
+            .end((err:any, res: request.Response) => {
 
             checkDefaultsJson(err, res, done);
             // now it should not be a number - it should be a string
