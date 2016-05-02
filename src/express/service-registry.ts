@@ -12,11 +12,25 @@ export class ExpressServiceRegistry {
         res.header("Content-Type", "text/plain");
     }
 
-    static registerService(app: express.Application, service:Object){
+    static registerService(app: express.Application, service:any){
+
+        if(typeof service === 'function'){
+            throw new TypeError('A type is not allowed - only an object can be registered');
+        }
+
+        app.locals.registeredServices = app.locals.registeredServices || [];
+
+        // check if the service is not already registered at this app
+        if (app.locals.registeredServices.indexOf(service.constructor.name) !== -1 ){
+            throw new Error(`A service can only be registered once per app. ${service.constructor.name} is already resgitered.`);
+        }
+        // store the service at the app
+        app.locals.registeredServices.push(service.constructor.name);
+
+
         let descriptions = ServiceParser.parse(service);
-
         let router = express.Router();
-
+        
         descriptions.methods.forEach( (method) => {
             // create a http method name from the enum. the enum are capitalized http method
             // - so, convert to string and convert to lowercase is enough.

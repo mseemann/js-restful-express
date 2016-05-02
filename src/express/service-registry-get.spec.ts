@@ -1,4 +1,3 @@
-import { BookService } from './test-classes.spec';
 import { ExpressServiceRegistry } from './service-registry';
 import * as express from 'express';
 import {expect} from 'chai';
@@ -81,11 +80,13 @@ describe('service-registry: HTTP GET methods', () => {
     var app;
     var testService;
     var testServiceB;
+    
 
     beforeEach( ()=>{
         app = express();
         testService = new TestService();
         testServiceB = new TestServiceB();
+
         ExpressServiceRegistry.registerService(app, testService);
         ExpressServiceRegistry.registerService(app, testServiceB);
     });

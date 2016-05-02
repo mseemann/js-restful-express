@@ -15,6 +15,7 @@
     "src/vendor.ts",
     "src/js-restful-express.ts",
     "src/express/service-registry.ts",
+    "src/express/service-registry.spec.ts",
     "src/express/service-registry-get.spec.ts"
   ]
 }
