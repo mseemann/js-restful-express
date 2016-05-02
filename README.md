@@ -77,10 +77,11 @@ ExpressServiceRegistry.registerService(app, new BookService());
 That's it. Now your service is published as an RESTful service at your express app.
 
 If you start your app you can access the urls:
+<pre>
 GET     /books                      -> []
 POST    /books/simpsons             -> {id:1, name:'simpsons'}
 PUT     /books/1/Huckleberry Finn   -> {id:1, name:'Huckleberry Finn'}
 DELETE  /books/1                    -> true
-
+</pre>
 
 
