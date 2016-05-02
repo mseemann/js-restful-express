@@ -48,3 +48,6 @@ coverage/
 
 #generated docs
 out/
+
+#tmp files
+tmp/

@@ -5,6 +5,6 @@ export class ExpressServiceRegistry {
 
     static registerService(app: express.Application, servcie:Object){
         let descriptions = ServiceParser.parse(servcie);
-        console.log(descriptions);
+       
     }
 }
