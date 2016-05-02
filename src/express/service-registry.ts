@@ -12,7 +12,7 @@ export class ExpressServiceRegistry {
         res.header("Content-Type", "text/plain");
     }
 
-    static convertRawParamToMethoParam(service, method, pathParam, rawParam){
+    static convertRawParamToMethodParam(service, method, pathParam, rawParam){
         // try to figure out what the method signature expects
         let paramTypes = Reflect.getMetadata('design:paramtypes', service, method.methodName);
         if(paramTypes && paramTypes.length >= pathParam.index){
@@ -65,17 +65,17 @@ export class ExpressServiceRegistry {
                 method.pathParams.forEach( (pathParam) => {
                     // this is always a string
                     let rawParam = req.params[pathParam.paramName];
-                    args[pathParam.index] = this.convertRawParamToMethoParam(service, method, pathParam, rawParam);
+                    args[pathParam.index] = this.convertRawParamToMethodParam(service, method, pathParam, rawParam);
                 })
 
                 method.headerParams.forEach( (headerParam) => {
                     let rawParam = req.header(headerParam.paramName);
-                    args[headerParam.index] = this.convertRawParamToMethoParam(service, method, headerParam, rawParam);
+                    args[headerParam.index] = this.convertRawParamToMethodParam(service, method, headerParam, rawParam);
                 })
 
                 method.queryParams.forEach( (queryParam) => {
                     let rawParam = req.query[queryParam.paramName];
-                    args[queryParam.index] = this.convertRawParamToMethoParam(service, method, queryParam, rawParam);
+                    args[queryParam.index] = this.convertRawParamToMethodParam(service, method, queryParam, rawParam);
                 })
 
                 let methodToCall =service[method.methodName];

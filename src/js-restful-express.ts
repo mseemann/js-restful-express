@@ -1,4 +1,4 @@
-export {  } from './express/service-registry';
+export { ExpressServiceRegistry } from './express/service-registry';
 
 
 
