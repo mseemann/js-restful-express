@@ -55,6 +55,8 @@ export class ExpressServiceRegistry {
 
             let path = method.path ? method.path : '/';
 
+            // TODO use a logging framwork console.log(`register method ${method.methodName} for path ${path}`);
+
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 var args = [];
 

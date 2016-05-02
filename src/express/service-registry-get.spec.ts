@@ -3,6 +3,7 @@ import * as express from 'express';
 import {expect} from 'chai';
 import * as request from 'supertest';
 import { Path, GET, PathParam, HeaderParam, QueryParam } from 'js-restful';
+import * as util from './test-util.spec';
 
 let anyBook = {a:'b'};
 
@@ -65,21 +66,6 @@ class TestServiceB{
 
 }
 
-function checkHttpStatus(err, res, done){
-    if (err) return done(err);
-    expect(res.status).to.equal(200);
-}
-
-function checkDefaultsJson(err, res, done){
-    checkHttpStatus(err, res, done);
-    expect(res.header).to.contain({'content-type': 'application/json; charset=utf-8'});
-}
-
-function checkDefaultsText(err, res, done){
-    checkHttpStatus(err, res, done);
-    expect(res.header).to.contain({'content-type': 'text/plain; charset=utf-8'});
-}
-
 describe('service-registry: HTTP GET methods', () => {
 
     var app;
@@ -100,7 +86,7 @@ describe('service-registry: HTTP GET methods', () => {
 
         request.agent(app).get('/books').end((err:any, res: request.Response) => {
 
-            checkDefaultsJson(err, res, done);
+            util.checkDefaultsJson(err, res, done);
 
             expect(res.body).to.eql([]);
 
@@ -113,7 +99,7 @@ describe('service-registry: HTTP GET methods', () => {
 
         request.agent(app).get('/books/archived').end((err:any, res: request.Response) => {
 
-            checkDefaultsJson(err, res, done);
+            util.checkDefaultsJson(err, res, done);
 
             expect(res.body).to.eql([anyBook]);
 
@@ -125,7 +111,7 @@ describe('service-registry: HTTP GET methods', () => {
 
         request.agent(app).get('/books/return-a-boolean').end((err:any, res: request.Response) => {
 
-            checkDefaultsText(err, res, done);
+            util.checkDefaultsText(err, res, done);
 
             expect(res.text).to.eql('true');
 
@@ -138,7 +124,7 @@ describe('service-registry: HTTP GET methods', () => {
 
         request.agent(app).get('/books/return-nothing').end((err:any, res: request.Response) => {
 
-            checkDefaultsText(err, res, done);
+            util.checkDefaultsText(err, res, done);
 
             expect(res.text).to.eql('');
 
@@ -151,7 +137,7 @@ describe('service-registry: HTTP GET methods', () => {
 
         request.agent(app).get('/books/return-number').end((err:any, res: request.Response) => {
 
-            checkDefaultsText(err, res, done);
+            util.checkDefaultsText(err, res, done);
 
             expect(res.text).to.eql('42');
 
@@ -164,7 +150,7 @@ describe('service-registry: HTTP GET methods', () => {
 
         request.agent(app).get('/books/return-string').end((err:any, res: request.Response) => {
 
-            checkDefaultsText(err, res, done);
+            util.checkDefaultsText(err, res, done);
 
             expect(res.text).to.eql('42');
 
@@ -176,7 +162,7 @@ describe('service-registry: HTTP GET methods', () => {
     it('should deal with services with no provided path as the default path', (done) => {
         request.agent(app).get('/').end((err:any, res: request.Response) => {
 
-            checkDefaultsJson(err, res, done);
+            util.checkDefaultsJson(err, res, done);
 
             expect(res.body).to.eql([]);
 
@@ -191,7 +177,7 @@ describe('service-registry: HTTP GET methods', () => {
             .set('token', 'token-value')
             .end((err:any, res: request.Response) => {
 
-                checkDefaultsJson(err, res, done);
+                util.checkDefaultsJson(err, res, done);
                 // now it should not be a number - it should be a string
                 expect(res.body).to.eql({id:1, plain:true, token:"token-value"});
 
@@ -207,7 +193,7 @@ describe('service-registry: HTTP GET methods', () => {
             .get('/books/1')
             .end((err:any, res: request.Response) => {
 
-            checkDefaultsJson(err, res, done);
+            util.checkDefaultsJson(err, res, done);
             // now it should not be a number - it should be a string
             expect(res.body).to.eql({id:"1"});
 
