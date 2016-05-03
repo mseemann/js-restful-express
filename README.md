@@ -32,6 +32,13 @@ So far there are the following decorators available:
 - @QueryParam
 - @Context
 
+This npm modul adds the following decorators:
+
+- @RenderWith
+
+The decorator expects a string as parameter. This is the view that should be used to render the result. For example: `@RenderWith('index')`
+will render the result of the service method with a view named index. You need to configure express with your preferred render engine: `app.set('view engine', 'pug');`.
+
 For example:
 
 ```typescript
