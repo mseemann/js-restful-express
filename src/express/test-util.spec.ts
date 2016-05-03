@@ -1,6 +1,6 @@
 import {expect} from 'chai';
 
-function checkHttpStatus(err, res, done){
+export function checkHttpStatus(err, res, done){
     if (err) return done(err);
     expect(res.status).to.equal(200);
 }

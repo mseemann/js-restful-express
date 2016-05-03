@@ -1,6 +1,7 @@
 import { ServiceDescription, ServiceParser, HttpMethod, ContextTypes, MethodDescription } from 'js-restful';
 import * as express from 'express';
 import * as pathUtil from './path-util';
+import { RendererFactory } from './renderers';
 
 export class JsRestfulRegistry {
 
@@ -22,6 +23,7 @@ export class JsRestfulRegistry {
 
 
         let descriptions = ServiceParser.parse(service);
+
         let router = express.Router();
 
         descriptions.methods.forEach( (method) => {
@@ -40,18 +42,19 @@ export class JsRestfulRegistry {
 
                     let methodToCall =service[method.methodName];
 
+                    let resultRenderer = RendererFactory.getRenderer(service, method.methodName);
 
                     let result = methodToCall.apply(service, args);
 
                     if (result && 'function' === typeof result.then) {
                         result.then( (pResult) => {
-                            this.sendResult(res, pResult);
+                            resultRenderer.render(res, pResult);
                         });
                         result.catch( (err) => {
                             this.sendError(res, err);
                         });
                     } else {
-                        this.sendResult(res, result);
+                        resultRenderer.render(res, result);
                     }
 
                 } catch (err) {
@@ -101,10 +104,6 @@ export class JsRestfulRegistry {
         return args;
     }
 
-    setToPlainText(res){
-        res.header("Content-Type", "text/plain");
-    }
-
     convertRawParamToMethodParam(service, method, pathParam, rawParam){
         // try to figure out what the method signature expects
         let paramTypes = Reflect.getMetadata('design:paramtypes', service, method.methodName);
@@ -118,19 +117,7 @@ export class JsRestfulRegistry {
             return rawParam;
         }
     }
-
-    sendResult(res, result){
-        if ( typeof result === 'undefined' || result === null) {
-            this.setToPlainText(res);
-            res.send('');
-        } else  if (typeof result === 'boolean' || typeof result === 'number' || typeof result === 'string') {
-            this.setToPlainText(res);
-            res.send('' + result);
-        } else {
-            // definitely not a promise
-            res.json(result);
-        }
-    }
+    
 
     sendError(res, err){
         res.status(500).send(err.message);

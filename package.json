@@ -42,6 +42,7 @@
     "jsdoc": "^3.4.0",
     "mocha": "^2.4.5",
     "mocha-lcov-reporter": "^1.2.0",
+    "pug": "^2.0.0-alpha6",
     "supertest": "^1.2.0",
     "ts-node": "^0.7.2",
     "tslint": "3.8.1",
