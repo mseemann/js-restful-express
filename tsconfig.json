@@ -14,11 +14,15 @@
     "typings/main.d.ts",
     "src/js-restful-express.ts",
     "src/express/service-registry.ts",
+    "src/express/path-util.ts",
+    "src/express/path-util.spec.ts",
+    "src/express/registry.ts",
+    "src/express/registry.spec.ts",
     "src/express/service-registry.spec.ts",
-    "src/express/service-registry-get.spec.ts",
-    "src/express/service-registry-post.spec.ts",
-    "src/express/service-registry-put.spec.ts",
-    "src/express/service-registry-promis.spec.ts",
+    "src/express/registry-get.spec.ts",
+    "src/express/registry-post.spec.ts",
+    "src/express/registry-put.spec.ts",
+    "src/express/registry-promis.spec.ts",
     "src/express/test-util.spec.ts"
 
   ]

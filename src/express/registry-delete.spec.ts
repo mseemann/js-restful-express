@@ -1,4 +1,4 @@
-import { ExpressServiceRegistry } from './service-registry';
+import { JsRestfulRegistry } from './registry';
 import * as express from 'express';
 import {expect} from 'chai';
 import * as request from 'supertest';
@@ -31,8 +31,7 @@ describe('service-registry: HTTP DELETE methods', () => {
     beforeEach( ()=>{
         app = express();
         testService = new TestService();
-
-        ExpressServiceRegistry.registerService(app, testService);
+        new JsRestfulRegistry(app).registerService(testService);
     });
 
     it('should test a DELETE method without a path', (done) => {

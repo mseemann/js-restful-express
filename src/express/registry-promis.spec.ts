@@ -1,4 +1,4 @@
-import { ExpressServiceRegistry } from './service-registry';
+import { JsRestfulRegistry } from './registry';
 import * as express from 'express';
 import {expect} from 'chai';
 import * as request from 'supertest';
@@ -46,7 +46,7 @@ describe('service-registry: implementations with promises', () => {
 
     it('should test a GET method with a service that return a promise', (done) => {
 
-        ExpressServiceRegistry.registerService(app, new TestService());
+        new JsRestfulRegistry(app).registerService(new TestService());
 
         request.agent(app).get('/books').end((err:any, res: request.Response) => {
 
@@ -61,7 +61,7 @@ describe('service-registry: implementations with promises', () => {
 
     it ('should send an error if the promise is rejected', (done) => {
 
-        ExpressServiceRegistry.registerService(app, new TestServiceB());
+        new JsRestfulRegistry(app).registerService(new TestServiceB());
 
         request.agent(app).get('/books').end((err:any, res: request.Response) => {
 

@@ -1,4 +1,4 @@
-import { ExpressServiceRegistry } from './service-registry';
+import { JsRestfulRegistry } from './registry';
 import * as express from 'express';
 import {expect} from 'chai';
 import * as request from 'supertest';
@@ -84,8 +84,9 @@ describe('service-registry: HTTP GET methods', () => {
         testService = new TestService();
         testServiceB = new TestServiceB();
 
-        ExpressServiceRegistry.registerService(app, testService);
-        ExpressServiceRegistry.registerService(app, testServiceB);
+        let registry =  new JsRestfulRegistry(app);
+        registry.registerService(testService);
+        registry.registerService(testServiceB);
     });
 
     it('should test a GET method without a path', (done) => {
