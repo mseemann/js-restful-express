@@ -84,4 +84,28 @@ PUT     /books/1/Huckleberry Finn   -> {id:1, name:'Huckleberry Finn'}
 DELETE  /books/1                    -> true
 </pre>
 
+**Supported Returntypes**
+
+So far we have see the that all servcie methods are synchronous. You can return simple javascript types or complex objects.
+If you simply return a boolean, number, string, null or undefined these values will be return as text/plain. If you return
+a complex object the result will be send as application/json.
+
+But what if your service method is asynchronous? In this case you can use es6 promises. For example:
+
+```TypeScript
+import {Promise} from 'es6-promise';
+
+@Path('/')
+class TestService {
+
+    @GET()
+    get(){
+        const p: Promise<any> = new Promise ((resolve, reject) => {
+          resolve([{foo:'bar'}]);
+        });
+        return p;
+    }
+}
+```
+If you access the url '/' you will get `[{foo:'bar'}]` as the result.
 
