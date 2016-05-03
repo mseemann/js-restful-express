@@ -1,5 +1,5 @@
 import * as express from "express";
-import { ServiceDescription, ServiceParser, HttpMethod } from 'js-restful';
+import { ServiceDescription, ServiceParser, HttpMethod, ContextTypes } from 'js-restful';
 
 export class ExpressServiceRegistry {
 
@@ -73,32 +73,46 @@ export class ExpressServiceRegistry {
             // TODO use a logging framwork console.log(`register method ${method.methodName} for path ${path}`);
 
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                var args = [];
-
-                args.length = method.pathParams.length + method.headerParams.length + method.queryParams.length;
-
-                method.pathParams.forEach( (pathParam) => {
-                    // this is always a string
-                    let rawParam = req.params[pathParam.paramName];
-                    args[pathParam.index] = this.convertRawParamToMethodParam(service, method, pathParam, rawParam);
-                })
-
-                method.headerParams.forEach( (headerParam) => {
-                    let rawParam = req.header(headerParam.paramName);
-                    args[headerParam.index] = this.convertRawParamToMethodParam(service, method, headerParam, rawParam);
-                })
-
-                method.queryParams.forEach( (queryParam) => {
-                    let rawParam = req.query[queryParam.paramName];
-                    args[queryParam.index] = this.convertRawParamToMethodParam(service, method, queryParam, rawParam);
-                })
-
-                let methodToCall =service[method.methodName];
-
                 try{
+
+                    var args = [];
+
+                    args.length = method.pathParams.length + method.headerParams.length + method.queryParams.length + method.contextParams.length;
+
+                    method.pathParams.forEach( (pathParam) => {
+                        // this is always a string
+                        let rawParam = req.params[pathParam.paramName];
+                        args[pathParam.index] = this.convertRawParamToMethodParam(service, method, pathParam, rawParam);
+                    })
+
+                    method.headerParams.forEach( (headerParam) => {
+                        let rawParam = req.header(headerParam.paramName);
+                        args[headerParam.index] = this.convertRawParamToMethodParam(service, method, headerParam, rawParam);
+                    })
+
+                    method.queryParams.forEach( (queryParam) => {
+                        let rawParam = req.query[queryParam.paramName];
+                        args[queryParam.index] = this.convertRawParamToMethodParam(service, method, queryParam, rawParam);
+                    })
+
+                    method.contextParams.forEach( (contextParam) => {
+                        let contextType:ContextTypes = ContextTypes[contextParam.paramName];
+                        switch (contextType){
+                            case ContextTypes.HttpRequest: {
+                                args[contextParam.index] = req;
+                                break;
+                            }
+                            default: {
+                                throw new Error(`unsupported contexttype ${contextParam.paramName}`);
+                            }
+                        }
+
+                    });
+
+                    let methodToCall =service[method.methodName];
+
+
                     let result = methodToCall.apply(service, args);
-
-
 
                     if (result && 'function' === typeof result.then) {
                         result.then( (pResult) => {
