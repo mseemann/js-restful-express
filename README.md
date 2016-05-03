@@ -65,7 +65,7 @@ class BookService {
 }
 ```
 
-After you have done this, setup your express app as you usually would. If done you can register a decorated instance of your service:
+After you have done this, setup your express app as you usually would. When you can register a decorated instance of your service:
 
 ```TypeScript
 import { ExpressServiceRegistry } from './service-registry';
@@ -74,7 +74,7 @@ import * as express from 'express';
 let app = express();
 ExpressServiceRegistry.registerService(app, new BookService());
 ```
-That's it. Now your service is published as an RESTful service at your express app.
+That's it. Now your service is published as an RESTful service in your express app.
 
 If you start your app you can access the urls:
 <pre>
@@ -84,10 +84,10 @@ PUT     /books/1/Huckleberry Finn   -> {id:1, name:'Huckleberry Finn'}
 DELETE  /books/1                    -> true
 </pre>
 
-**Supported Returntypes**
+**Supported Return types**
 
-So far we have see the that all servcie methods are synchronous. You can return simple javascript types or complex objects.
-If you simply return a boolean, number, string, null or undefined these values will be return as text/plain. If you return
+So far we have seen the that all servcie methods are synchronous. You can return simple javascript types or complex objects.
+If you simply return a boolean, number, string, null or undefined these values will be returned as text/plain. If you return
 a complex object the result will be send as application/json.
 
 But what if your service method is asynchronous? In this case you can use es6 promises. For example:
