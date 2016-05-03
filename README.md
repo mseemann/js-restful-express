@@ -30,6 +30,7 @@ So far there are the following decorators available:
 - @PathParam
 - @HeaderParam
 - @QueryParam
+- @Context
 
 For example:
 
