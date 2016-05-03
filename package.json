@@ -31,6 +31,7 @@
   "author": "Michael Seemann",
   "license": "MIT",
   "dependencies": {
+    "es6-promise": "^3.1.2",
     "express": "^4.13.4",
     "js-restful": "^1.0.2",
     "reflect-metadata": "^0.1.3"

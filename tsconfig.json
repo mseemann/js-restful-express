@@ -18,6 +18,7 @@
     "src/express/service-registry-get.spec.ts",
     "src/express/service-registry-post.spec.ts",
     "src/express/service-registry-put.spec.ts",
+    "src/express/service-registry-promis.spec.ts",
     "src/express/test-util.spec.ts"
 
   ]

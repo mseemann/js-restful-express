@@ -16,6 +16,12 @@ class TestService {
     }
 
     @GET()
+    @Path('/error')
+    getError(){
+        throw new Error('test error');
+    }
+
+    @GET()
     @Path('/archived')
     getWithAdditionalPath(){
         return [anyBook];
@@ -94,6 +100,16 @@ describe('service-registry: HTTP GET methods', () => {
         });
 
     });
+
+    it('should send an error if the service method throws an error', (done) => {
+        request.agent(app).get('/books/error').end((err:any, res: request.Response) => {
+
+            expect(res.status).to.equal(500);
+            expect(JSON.stringify(res.error)).to.contains('test error');
+
+            done();
+        });
+    })
 
     it('should test a GET method with a path', (done) => {
 
