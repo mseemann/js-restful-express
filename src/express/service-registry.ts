@@ -5,7 +5,7 @@ export class ExpressServiceRegistry {
 
     static getBasePath(path: string| void): string{
         let result =  <string>(path ? path : "/");
-        return result;
+        return result.indexOf('/') === 0 ? result : '/'+result;
     }
 
     static setToPlainText(res){

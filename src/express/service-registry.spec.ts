@@ -44,4 +44,11 @@ describe('service-registry', () => {
 
     });
 
+    it('should always return a basepath with a leading slash', () => {
+        expect(ExpressServiceRegistry.getBasePath(null)).to.be.eql('/');
+        expect(ExpressServiceRegistry.getBasePath('/')).to.be.eql('/');
+        expect(ExpressServiceRegistry.getBasePath('books')).to.be.eql('/books');
+        expect(ExpressServiceRegistry.getBasePath('/books')).to.be.eql('/books');
+    })
+
 });
