@@ -1,5 +1,5 @@
 import * as express from "express";
-import { JsRestfulRegistry } from './registry.ts';
+import { JsRestfulRegistry } from './registry';
 
 export class ExpressServiceRegistry {
 
