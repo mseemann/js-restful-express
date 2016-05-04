@@ -38,7 +38,7 @@ export class JsRestfulRegistry {
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 try{
 
-                    var args = this.collectAndConvertArgs(req, service, method);
+                    var args = this.collectAndConvertArgs(req, res, service, method);
 
                     let methodToCall =service[method.methodName];
 
@@ -67,7 +67,7 @@ export class JsRestfulRegistry {
         this.app.use(pathUtil.getPathFromString(descriptions.basePath), router);
     }
 
-    collectAndConvertArgs(req:express.Request, service:Object, method:MethodDescription): any[]{
+    collectAndConvertArgs(req:express.Request, res: express.Response, service:Object, method:MethodDescription): any[]{
         var args = [];
 
         args.length = method.pathParams.length + method.headerParams.length + method.queryParams.length + method.contextParams.length;
@@ -93,6 +93,10 @@ export class JsRestfulRegistry {
             switch (contextType){
                 case ContextTypes.HttpRequest: {
                     args[contextParam.index] = req;
+                    break;
+                }
+                case ContextTypes.HttpResponse: {
+                    args[contextParam.index] = res;
                     break;
                 }
                 default: {

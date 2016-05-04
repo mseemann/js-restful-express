@@ -11,8 +11,8 @@ let anyBook = {name:'simsons'};
 class TestService {
 
     @PUT()
-    doPut(@Context(ContextTypes.HttpRequest) req:express.Request){
-        return req.method;
+    doPut(@Context(ContextTypes.HttpRequest) req:express.Request, @Context(ContextTypes.HttpResponse) res:express.Response){
+        return req.method + (res ? '-response-present' : '');
     }
 
     @PUT()
@@ -41,7 +41,7 @@ describe('service-registry: HTTP methods with Context decorator', () => {
 
             expect(res.status).to.equal(200);
 
-            expect(res.text).to.eql('PUT');
+            expect(res.text).to.eql('PUT-response-present');
 
             done();
         });

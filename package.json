@@ -36,7 +36,7 @@
   "dependencies": {
     "es6-promise": "^3.1.2",
     "express": "^4.13.4",
-    "js-restful": "^1.1.0"
+    "js-restful": "^1.1.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
