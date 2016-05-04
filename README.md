@@ -73,7 +73,7 @@ class BookService {
 }
 ```
 
-After you have done this, setup your express app as you usually would. When you can register a decorated instance of your service:
+After you have done this, setup your express app as you usually would. Then you can register a decorated instance of your service:
 
 ```TypeScript
 import { ExpressServiceRegistry } from './service-registry';
