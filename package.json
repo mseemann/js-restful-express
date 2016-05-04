@@ -30,11 +30,13 @@
   ],
   "author": "Michael Seemann",
   "license": "MIT",
+  "peerDependencies": {
+    "reflect-metadata": "0.1.2"
+  },
   "dependencies": {
     "es6-promise": "^3.1.2",
     "express": "^4.13.4",
-    "js-restful": "^1.0.5",
-    "reflect-metadata": "0.1.2"
+    "js-restful": "^1.1.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
