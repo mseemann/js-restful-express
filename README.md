@@ -30,7 +30,7 @@ So far there are the following decorators available:
 - @PathParam
 - @HeaderParam
 - @QueryParam
-- @Context
+- @Context (HttpRequest, HttpResponse)
 
 This npm modul adds the following decorators:
 
