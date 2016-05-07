@@ -7,7 +7,6 @@ Create a RESTful service with ES7 decorators for your express based node.js appl
 [![Downloads](http://img.shields.io/npm/dm/js-restful-express.svg)](https://npmjs.org/package/js-restful-express)
 [![Coverage Status](https://coveralls.io/repos/github/mseemann/js-restful-express/badge.svg?branch=master)](https://coveralls.io/github/mseemann/js-restful-express?branch=master)
 [![Code Climate](https://codeclimate.com/github/mseemann/js-restful-express/badges/gpa.svg)](https://codeclimate.com/github/mseemann/js-restful-express)
-[![Issue Stats](http://issuestats.com/github/mseemann/js-restful-express/badge/issue)](http://issuestats.com/github/mseemann/js-restful-express)
 
 **Installation**
 ```bash
