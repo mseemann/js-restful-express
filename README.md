@@ -93,7 +93,7 @@ DELETE  /books/1                    -> true
 
 **Supported Return types**
 
-So far we have seen the that all servcie methods are synchronous. You can return simple javascript types or complex objects.
+So far we have seen that all servcie methods are synchronous. You can return simple javascript types or complex objects.
 If you simply return a boolean, number, string, null or undefined these values will be returned as text/plain. If you return
 a complex object the result will be send as application/json.
 
