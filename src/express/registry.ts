@@ -2,6 +2,7 @@ import { ServiceDescription, ServiceParser, HttpMethod, ContextTypes, MethodDesc
 import * as express from 'express';
 import * as pathUtil from './path-util';
 import { RendererFactory } from './renderers';
+import * as  winston from 'winston';
 
 export class JsRestfulRegistry {
 
@@ -18,6 +19,7 @@ export class JsRestfulRegistry {
         if (this.registeredServices.indexOf(service.constructor.name) !== -1 ){
             throw new Error(`A service can only be registered once per app. ${service.constructor.name} is already resgitered.`);
         }
+        winston.log('info', `${service.constructor.name} will be registered`);
         // store the service at the app
         this.registeredServices.push(service.constructor.name);
 
@@ -33,7 +35,7 @@ export class JsRestfulRegistry {
 
             let path = method.path ? method.path : '/';
 
-            // TODO use a logging framwork console.log(`register method ${method.methodName} for path ${path}`);
+            winston.log('info', `register method ${method.methodName} for path ${path}`);
 
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 try{
@@ -64,7 +66,9 @@ export class JsRestfulRegistry {
 
         })
 
-        this.app.use(pathUtil.getPathFromString(descriptions.basePath), router);
+        let basePath = pathUtil.getPathFromString(descriptions.basePath);
+        this.app.use(basePath, router);
+        winston.log('info', `${service.constructor.name} published at ${basePath}`);
     }
 
     collectAndConvertArgs(req:express.Request, res: express.Response, service:Object, method:MethodDescription): any[]{
