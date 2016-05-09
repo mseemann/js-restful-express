@@ -1,6 +1,7 @@
 import * as namings from './namings';
 import 'reflect-metadata';
-
+import { ExpressContextType } from './descriptions';
+import { DecoratorUtil } from 'js-restful';
 
 /**
  * Specify a view name for a method. The result will of the method will be used to
@@ -16,3 +17,5 @@ export function RenderWith (viewName:string) : Function {
         return Reflect.defineMetadata(namings.renderWith, viewName, descriptor.value);
     }
 }
+
+export function ExpressContext(contextType:ExpressContextType){ return DecoratorUtil.createParamDecorator(ExpressContextType[contextType], namings.expressContextParam);}

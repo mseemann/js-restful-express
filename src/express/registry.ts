@@ -1,8 +1,10 @@
-import { ServiceDescription, ServiceParser, HttpMethod, ContextTypes, MethodDescription } from 'js-restful';
+import { ServiceDescription, ServiceParser, HttpMethod, ContextTypes, MethodDescription, ParamDescription } from 'js-restful';
 import * as express from 'express';
 import * as pathUtil from './path-util';
 import { RendererFactory } from './renderers';
 import * as  winston from 'winston';
+import * as namings from './namings';
+import { ExpressContextType } from './descriptions';
 
 export class JsRestfulRegistry {
 
@@ -40,7 +42,7 @@ export class JsRestfulRegistry {
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 try{
 
-                    var args = this.collectAndConvertArgs(req, res, service, method);
+                    var args = this.collectAndConvertArgs(req, res, next, service, method);
 
                     let methodToCall =service[method.methodName];
 
@@ -71,7 +73,7 @@ export class JsRestfulRegistry {
         winston.log('info', `${service.constructor.name} published at ${basePath}`);
     }
 
-    collectAndConvertArgs(req:express.Request, res: express.Response, service:Object, method:MethodDescription): any[]{
+    collectAndConvertArgs(req:express.Request, res: express.Response, next:express.NextFunction, service:Object, method:MethodDescription): any[]{
         var args = [];
 
         args.length = method.pathParams.length + method.headerParams.length + method.queryParams.length + method.contextParams.length;
@@ -108,6 +110,20 @@ export class JsRestfulRegistry {
                 }
             }
         });
+
+        let expressContextParams: ParamDescription[] = Reflect.getMetadata(namings.expressContextParam, service,  method.methodName) || [];
+        expressContextParams.forEach( (expressContextParam) => {
+            let expressContextType:ExpressContextType = ExpressContextType[expressContextParam.paramName];
+            switch (expressContextType){
+                case ExpressContextType.HttpNextFunction: {
+                    args[expressContextParam.index] = next;
+                    break;
+                }
+                default: {
+                    throw new Error(`unsupported contexttype ${expressContextParam.paramName}`);
+                }
+            }
+        })
 
         return args;
     }

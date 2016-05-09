@@ -3,6 +3,8 @@ import * as express from 'express';
 import {expect} from 'chai';
 import * as request from 'supertest';
 import { Path, GET, PUT, Context, ContextTypes} from 'js-restful';
+import { ExpressContext } from './decorators';
+import { ExpressContextType } from './descriptions';
 import * as util from './test-util.spec';
 
 let anyBook = {name:'simsons'};
@@ -26,6 +28,18 @@ class TestService {
     doNotRenderTheResult(@Context(ContextTypes.HttpResponse) res:express.Response){
         res.send('manually send');
         return null;
+    }
+
+    @GET()
+    @Path('/expresscontext')
+    expressContext(@ExpressContext(ExpressContextType.HttpNextFunction) next:Function){
+        return typeof next;
+    }
+
+    @PUT()
+    @Path('/errorExpress')
+    errorExpress(@ExpressContext(1000) req:express.Request){
+        // simulates an unsuported expres  context type
     }
 }
 
@@ -71,6 +85,27 @@ describe('service-registry: HTTP methods with Context decorator', () => {
 
             expect(res.status).to.equal(200);
             expect(res.text).to.contains('manually send');
+
+            done();
+        });
+    })
+
+    it('should test a method with express context type next function', (done) => {
+        request.agent(app).get('/books/expresscontext').end((err:any, res: request.Response) => {
+
+            expect(res.status).to.equal(200);
+            expect(res.text).to.contains('function');
+
+            done();
+        });
+    })
+
+    it('should throw an error if an unsupported express context type is used', (done) => {
+
+        request.agent(app).put('/books/errorExpress').end((err:any, res: request.Response) => {
+
+            expect(res.status).to.equal(500);
+            expect(JSON.stringify(res.error)).to.contains('unsupported contexttype');
 
             done();
         });
