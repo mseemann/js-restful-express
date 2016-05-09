@@ -13,8 +13,9 @@
   "files":[
     "typings/main.d.ts",
     "src/js-restful-express.ts",
-    "src/express/decorators.ts",
     "src/express/decorators.spec.ts",
+    "src/express/decorators.ts",
+    "src/express/descriptions.ts",
     "src/express/namings.ts",
     "src/express/path-util.ts",
     "src/express/path-util.spec.ts",
