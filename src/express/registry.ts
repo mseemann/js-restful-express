@@ -44,7 +44,7 @@ export class JsRestfulRegistry {
 
                     let methodToCall =service[method.methodName];
 
-                    let resultRenderer = RendererFactory.getRenderer(service, method.methodName);
+                    let resultRenderer = RendererFactory.getRenderer(service, method);
 
                     let result = methodToCall.apply(service, args);
 

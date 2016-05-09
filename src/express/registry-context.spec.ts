@@ -2,7 +2,7 @@ import { JsRestfulRegistry } from './registry';
 import * as express from 'express';
 import {expect} from 'chai';
 import * as request from 'supertest';
-import { Path, PUT, Context, ContextTypes} from 'js-restful';
+import { Path, GET, PUT, Context, ContextTypes} from 'js-restful';
 import * as util from './test-util.spec';
 
 let anyBook = {name:'simsons'};
@@ -21,6 +21,12 @@ class TestService {
         // simulates an unsuported context type
     }
 
+    @GET()
+    @Path('/doNotRenderTheResult')
+    doNotRenderTheResult(@Context(ContextTypes.HttpResponse) res:express.Response){
+        res.send('manually send');
+        return null;
+    }
 }
 
 describe('service-registry: HTTP methods with Context decorator', () => {
@@ -60,4 +66,13 @@ describe('service-registry: HTTP methods with Context decorator', () => {
     })
 
 
+    it('should not render the resut by js-restful-express - this should be done by the service method', (done) => {
+        request.agent(app).get('/books/doNotRenderTheResult').end((err:any, res: request.Response) => {
+
+            expect(res.status).to.equal(200);
+            expect(res.text).to.contains('manually send');
+
+            done();
+        });
+    })
 });

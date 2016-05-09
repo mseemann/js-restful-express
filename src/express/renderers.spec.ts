@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import {RenderWith} from "./decorators";
 import {RendererFactory, DefaultRenderer, RenderWithRenderer} from './renderers';
 import {JsRestfulRegistry} from "./registry";
-import { Path, GET } from 'js-restful';
+import { Path, GET, ServiceParser } from 'js-restful';
 import * as util from './test-util.spec';
 
 class TestService {
@@ -16,6 +16,7 @@ class TestService {
         return {a:'b'};
     }
 
+    @GET()
     get(){
         return {a:'b'};
     }
@@ -23,13 +24,17 @@ class TestService {
 
 describe('renderer', () => {
 
+    var service = new TestService();
+    var descriptions = ServiceParser.parse(service);
+
+
     it('shoud return the default renderer for the get methods', ()=>{
-        var renderer = RendererFactory.getRenderer(new TestService(), 'get');
+        var renderer = RendererFactory.getRenderer(service, descriptions.getMethodDescriptorForMethodName('get'));
         expect(renderer instanceof DefaultRenderer).to.be.true;
     })
 
     it('shoud return the renderwith renderer for the render methods', ()=>{
-        var renderer = RendererFactory.getRenderer(new TestService(), 'render');
+        var renderer = RendererFactory.getRenderer(service, descriptions.getMethodDescriptorForMethodName('render'));
         expect(renderer instanceof RenderWithRenderer).to.be.true;
     })
 });
