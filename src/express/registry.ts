@@ -98,7 +98,7 @@ export class JsRestfulRegistry {
                     }
 
                 } catch (err) {
-                    this.sendError(res, err);
+                    next(err);
                 }
             });
 
