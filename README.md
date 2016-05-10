@@ -24,7 +24,10 @@ npm install js-restful-express --save
 
 Decorate your service class with the decorators from the [js-restful](https://github.com/mseemann/js-restful) Github-project.
 So far there are the following decorators available:
-- @Path
+|   Decorator   |   Description |
+| ------------- | ------------- |
+| @Path         | The path under wich the service will be published. The decorator can be used at class and method level.|
+
 - @GET
 - @POST
 - @PUT
