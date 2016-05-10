@@ -37,7 +37,8 @@
     "es6-promise": "^3.1.2",
     "express": "^4.13.4",
     "js-restful": "^1.1.1",
-    "winston": "^2.2.0"
+    "winston": "^2.2.0",
+    "reflect-metadata": "0.1.2"
   },
   "devDependencies": {
     "chai": "^3.5.0",
