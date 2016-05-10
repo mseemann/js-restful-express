@@ -1,6 +1,6 @@
 {
   "name": "js-restful-express",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Create a RESTful service with ES6 decorators for your express based node.js application.",
   "main": "src/js-restful-express.js",
   "typings": "./src/js-restful-express.d.ts",
