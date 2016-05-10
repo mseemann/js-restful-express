@@ -28,18 +28,17 @@ So far there are the following decorators available:
 |   Decorator   |   Description |
 | ------------- | ------------- |
 | @Path         | The path under wich the service will be published. The decorator can be used at class and method level.|
-
-- @GET
-- @POST
-- @PUT
-- @DELETE
-- @PathParam
-- @HeaderParam
-- @QueryParam
-- @Context (HttpRequest, HttpResponse)
-- @SecurityContext
-- @RolesAllowed
-- @PermitAll
+| @GET          | |
+| @POST         | |
+| @PUT          | |
+| @DELETE       | |
+| @PathParam    | |
+| @HeaderParam  | |
+| @QueryParam   | |
+| @Context (HttpRequest, HttpResponse)  | |
+| @SecurityContext  | |
+| @RolesAllowed | |
+| @PermitAll    | |
 
 This npm modul adds the following decorators:
 
