@@ -31,11 +31,11 @@ export class JsRestfulRegistry {
 
         if (descriptions.isSecurityContextUsed()){
             if (!this.securityContextFactory){
-                throw new Error('if security features are used you need to register a SecurityContextFactory - app.use(SecurityContextFactory)');
+                throw new Error('if security features are used you need to register a SecurityContextFactory - ExpressServiceRegistry.registerSecurityContextFactory');
             }
         }
 
-        //winston.log('info', `${service.constructor.name} will be registered`);
+        winston.log('info', `${service.constructor.name} will be registered`);
         // store the service at the app
         this.registeredServices.push(service.constructor.name);
 
@@ -48,7 +48,7 @@ export class JsRestfulRegistry {
 
             let path = method.path ? method.path : '/';
 
-            //winston.log('info', `register method ${method.methodName} for path ${path}`);
+            winston.log('info', `register method ${method.methodName} for path ${path}`);
 
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 try{
@@ -106,7 +106,7 @@ export class JsRestfulRegistry {
 
         let basePath = pathUtil.getPathFromString(descriptions.basePath);
         this.app.use(basePath, router);
-        //winston.log('info', `${service.constructor.name} published at ${basePath}`);
+        winston.log('info', `${service.constructor.name} published at ${basePath}`);
     }
 
     collectAndConvertArgs(req:express.Request, res: express.Response, next:express.NextFunction, service:Object, method:MethodDescription): any[]{
