@@ -34,16 +34,11 @@ So far there are the following decorators available:
 | @POST         | Decorator that indicates a HTTP POST method.|
 | @PUT          | Decorator that indicates a HTTP PUT method.|
 | @DELETE       | Decorator that indicates a HTTP DELETE method.|
-| @PathParam    | A method parameter may be decorated with the `@PathParam` decorator. The decorator reuquires a string parameter - the name of the parameter.
-The name must be present within the Path. For example `/books/:id`. One can access the id parameter parameter with `@PathParam('id')`|
-| @HeaderParam  | You can access the http header information in the same way as a path parameter. The difference is, that the value will be determined
-by a http header entry at runtime. For example if you want to access a token that is stored in the http header use: `@HeaderParam('token)`|
-| @QueryParam   | If you want to access url query parameters from your service use this decorator. For example in a url like this: `/books?readed=true` you
-can use `@QueryParam('readed')`|
-| @Context (HttpRequest, HttpResponse)  | Sometime it may be necessary to play around with the original HttpRequest or the HttpResponse.
-In this case you can use the `@Context` decorator. For Example `@Context(ContextTpyes.HttpRequest)`|
-| @SecurityContext  | This module provides decorators that can deal with security concerns out of the box. If this doesn't fits your needs you can
-inject the SecurityContext manually. For example: `withSecContext(@SecurityContext() context:ISecurityContext)` |
+| @PathParam    | A method parameter may be decorated with the `@PathParam` decorator. The decorator reuquires a string parameter - the name of the parameter. The name must be present within the Path. For example `/books/:id`. One can access the id parameter parameter with `@PathParam('id')`|
+| @HeaderParam  | You can access the http header information in the same way as a path parameter. The difference is, that the value will be determined by a http header entry at runtime. For example if you want to access a token that is stored in the http header use: `@HeaderParam('token)`|
+| @QueryParam   | If you want to access url query parameters from your service use this decorator. For example in a url like this: `/books?readed=true` you can use `@QueryParam('readed')`|
+| @Context (HttpRequest, HttpResponse)  | Sometime it may be necessary to play around with the original HttpRequest or the HttpResponse. In this case you can use the `@Context` decorator. For Example `@Context(ContextTpyes.HttpRequest)`|
+| @SecurityContext  | This module provides decorators that can deal with security concerns out of the box. If this doesn't fits your needs you can inject the SecurityContext manually. For example: `withSecContext(@SecurityContext() context:ISecurityContext)` |
 | @RolesAllowed | You may restrict the access to all methods of a class or a specific method. Just use the `@RolesAllowed` decorator: `@RolesAllowed(['admin'])`|
 | @PermitAll    | If you want you service or service methods to be called by everyone use `@PermitAll`|
 
@@ -56,11 +51,8 @@ This npm modul adds the following decorators:
 
 |   Decorator   |   Description |
 | ------------- | ------------- |
-| @RenderWith   | The decorator expects a string as parameter. This is the view that should be used to render the result.
-For example: `@RenderWith('index')` will render the result of the service method with a view named `index`. You need to configure
-express with your preferred render engine: `app.set('view engine', 'pug');`. |
-| @ExpressContext (HttpNextFunction) | The express framework provides a `next` function. If you need access to this function from within your service
-you may use this decorator for a method parameter. |
+| @RenderWith   | The decorator expects a string as parameter. This is the view that should be used to render the result. For example: `@RenderWith('index')` will render the result of the service method with a view named `index`. You need to configure express with your preferred render engine: `app.set('view engine', 'pug');`. |
+| @ExpressContext (HttpNextFunction) | The express framework provides a `next` function. If you need access to this function from within your service you may use this decorator for a method parameter. |
 
 
 A more elaborate example:
