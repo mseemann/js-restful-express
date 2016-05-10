@@ -3,4 +3,6 @@ sudo: false
 node_js:
   - "0.12"
 # Send coverage data to Coveralls
-after_script: "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
+after_script:
+  - "npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls"
+  - cat ./coverage/lcov.info | ./node_modules/codeclimate-test-reporter/bin/codeclimate.js

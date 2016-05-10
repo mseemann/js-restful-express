@@ -1,6 +1,18 @@
+---
 engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript
+  eslint:
+    enabled: true
   fixme:
     enabled: true
 ratings:
-  paths: []
-exclude_paths: []
+  paths:
+  - "**.ts"
+  - "**.js"
+  - "**.jsx"
+exclude_paths:
+- config/
