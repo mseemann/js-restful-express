@@ -11,47 +11,49 @@ Create a RESTful service with ES7 decorators for your express based node.js appl
 [![Issue Count](https://codeclimate.com/github/mseemann/js-restful-express/badges/issue_count.svg)](https://codeclimate.com/github/mseemann/js-restful-express)
 [![Issue Stats](http://issuestats.com/github/mseemann/js-restful-express/badge/issue)](http://issuestats.com/github/mseemann/js-restful-express)
 
-**Installation**
+## Installation
 ```bash
 npm install js-restful-express --save
 ```
 
-**Prerequisites**
-- you use TypeScript for your app
-- you use express 4.x as your http framework for your node.js application
+## Prerequisites
+- You use TypeScript for your app
+- You use express 4.x as your http framework for your node.js application
 
-**Usage**
+## Usage
 
 Decorate your service class with the decorators from the [js-restful](https://github.com/mseemann/js-restful) Github-project.
 So far there are the following decorators available:
 
 |   Decorator   |   Description |
 | ------------- | ------------- |
-| @Path         | The path under wich the service will be published. The decorator can be used at class and method level.|
-| @GET          | |
-| @POST         | |
-| @PUT          | |
-| @DELETE       | |
-| @PathParam    | |
-| @HeaderParam  | |
-| @QueryParam   | |
-| @Context (HttpRequest, HttpResponse)  | |
-| @SecurityContext  | |
-| @RolesAllowed | |
-| @PermitAll    | |
+| @Path         | The path under which the service will be published. The decorator can be used at class and method level. You need to provide a path as string.|
+| @GET          | Decorator that indicates a HTTP GET method.|
+| @POST         | Decorator that indicates a HTTP POST method.|
+| @PUT          | Decorator that indicates a HTTP PUT method.|
+| @DELETE       | Decorator that indicates a HTTP DELETE method.|
+| @PathParam    | A method parameter may be decorated with the PathParam decorator. The decorator reuquires a name as a string parameter. The name must be present within the Path. For example `/books/:id`. One can access the parameter with `@PathParam('id')`|
+| @HeaderParam  | You can access the http header information in the same way as a path parameter. The difference is, that the value will be determined by a http header entry ar run time. For example if ypu want to access a token that is stored in the http header use: `@HeaderParam('token)`|
+| @QueryParam   | If you want to access url query params from your service use this decorator. For example in a url like this: `/books?readed=true` you can use `@QueryParam('readed')|
+| @Context (HttpRequest, HttpResponse)  | Sometime it may be necessary to play around with the original HttpRequest or the HttpResponse. In this case you can use the @Context decorator. For Example `@Context(ContextTpyes.HttpRequest)`|
+| @SecurityContext  | This module provides decorator that can deal with security concerns. If this doesn't fits your needs you can inject the SecurityContext manuall. For example: `withSecContext(@SecurityContext() context:ISecurityContext)` |
+| @RolesAllowed | You may restrict the access to all methods of a class or a specific method. Just use the `@RolesAllowed` decorator: `@RolesAllowed(['admin'])`|
+| @PermitAll    | If you want you service or service methods to be called by everyone use `@PermitAll`|
+
+#### Remarks
+- The HTTP Method decorator are only marker decorators. They don't have a parameter. The request path must be defined by the @Path decorator.
+- If you use any of the build in security capabilities you need to register a `ISecurityContextFactory`.
 
 This npm modul adds the following decorators:
 
 |   Decorator   |   Description |
 | ------------- | ------------- |
-| @RenderWith   | |
-| @ExpressContext (HttpNextFunction) ||
+| @RenderWith   | The decorator expects a string as parameter. This is the view that should be used to render the result. For example: `@RenderWith('index')` will render the result of the service method with a view named index. You need to configure express with your preferred render engine: `app.set('view engine', 'pug');`. |
+| @ExpressContext (HttpNextFunction) | The express framework provides a `next` function. If you need access to this function from within your service you may use this decorator for a method parameter. |
 
 
-The decorator expects a string as parameter. This is the view that should be used to render the result. For example: `@RenderWith('index')`
-will render the result of the service method with a view named index. You need to configure express with your preferred render engine: `app.set('view engine', 'pug');`.
 
-For example:
+A more elaborate example:
 
 ```typescript
 import { GET, POST, PUT, DELETE, Path, PathParam, HeaderParam } from 'js-restful';
@@ -104,7 +106,7 @@ PUT     /books/1/Huckleberry Finn   -> {id:1, name:'Huckleberry Finn'}
 DELETE  /books/1                    -> true
 </pre>
 
-**Supported Return types**
+## Supported Return types
 
 So far we have seen that all servcie methods are synchronous. You can return simple javascript types or complex objects.
 If you simply return a boolean, number, string, null or undefined these values will be returned as text/plain. If you return
@@ -127,5 +129,21 @@ class TestService {
     }
 }
 ```
-If you access the url '/' you will get `[{foo:'bar'}]` as the result.
+If you access the url '/' you will get `[{foo:'bar'}]` as the result. May be this is too much code for you - for me it is :smirk: .
+Keep in mind that tehre are a lot of node modules that already use promisses. For example mongoose. With this you service could be as short as:
 
+```TypeScript
+import {Path, GET, RolesAllowed} from 'js-restful';
+import {User} from './../models/userModel';
+
+@Path('/users')
+@RolesAllowed(['admin'])
+export class UserService {
+
+  @GET()
+  users(){
+    return User.find({}).exec();
+  }
+
+}
+```
