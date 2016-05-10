@@ -91,7 +91,7 @@ export class JsRestfulRegistry {
                             resultRenderer.render(res, pResult);
                         });
                         result.catch( (err) => {
-                            this.sendError(res, err);
+                            next(err);
                         });
                     } else {
                         resultRenderer.render(res, result);
@@ -181,9 +181,5 @@ export class JsRestfulRegistry {
             return rawParam;
         }
     }
-    
 
-    sendError(res, err){
-        res.status(500).send(err.message);
-    }
 }
