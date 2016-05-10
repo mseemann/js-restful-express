@@ -130,7 +130,7 @@ class TestService {
 }
 ```
 If you access the url '/' you will get `[{foo:'bar'}]` as the result. May be this is too much code for you - for me it is :smirk: .
-Keep in mind that tehre are a lot of node modules that already use promisses. For example mongoose. With this you service could be as short as:
+Keep in mind that there are a lot of node modules that already use promisses. For example mongoose. With this you service could be as short as:
 
 ```TypeScript
 import {Path, GET, RolesAllowed} from 'js-restful';
