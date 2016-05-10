@@ -1,10 +1,18 @@
 import { JsRestfulRegistry } from './registry';
 import * as express from 'express';
 import {expect} from 'chai';
+import { PermitAll } from 'js-restful';
+import { Factory } from './test-util.spec';
 
 class TestServiceC {
 
 }
+
+@PermitAll()
+class TestServcieRequireSecurityContext {
+
+}
+
 
 describe('service-registry', () => {
 
@@ -44,5 +52,24 @@ describe('service-registry', () => {
         expect(fn).to.throw(TypeError);
 
     });
+
+    it('should not be possible to register a service that needs a security context when there is no security context available', ()=>{
+
+        var fn = () => {
+            new JsRestfulRegistry(app).registerService(new TestServcieRequireSecurityContext());
+        }
+
+        expect(fn).to.throw(Error);
+    })
     
+    it('should be possible to register a service with sec context if a factory is registered', ()=>{
+
+        var fn = () => {
+            let registry = new JsRestfulRegistry(app);
+            registry.registerSecurityContextFactory(new Factory());
+            registry.registerService(new TestServcieRequireSecurityContext());
+        }
+
+        expect(fn).to.not.throw(Error);
+    })
 });

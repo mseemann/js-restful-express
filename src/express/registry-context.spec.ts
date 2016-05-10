@@ -2,9 +2,9 @@ import { JsRestfulRegistry } from './registry';
 import * as express from 'express';
 import {expect} from 'chai';
 import * as request from 'supertest';
-import { Path, GET, PUT, Context, ContextTypes} from 'js-restful';
+import { Path, GET, PUT, Context, ContextTypes, SecurityContext, ISecurityContext} from 'js-restful';
 import { ExpressContext } from './decorators';
-import { ExpressContextType } from './descriptions';
+import {ExpressContextType, ISecurityContextFactory} from './descriptions';
 import * as util from './test-util.spec';
 
 let anyBook = {name:'simsons'};
@@ -41,6 +41,12 @@ class TestService {
     errorExpress(@ExpressContext(1000) req:express.Request){
         // simulates an unsuported expres  context type
     }
+
+    @GET()
+    @Path('/withSecContext')
+    withSecContext(@SecurityContext() context:ISecurityContext){
+        return context.isUserInRole('x');
+    }
 }
 
 describe('service-registry: HTTP methods with Context decorator', () => {
@@ -52,7 +58,9 @@ describe('service-registry: HTTP methods with Context decorator', () => {
         app = express();
         testService = new TestService();
 
-        new JsRestfulRegistry(app).registerService(testService);
+        let registry = new JsRestfulRegistry(app);
+        registry.registerSecurityContextFactory(new util.Factory());
+        registry.registerService(testService);
     });
 
     it('should test a PUT method with a content decorator', (done) => {
@@ -106,6 +114,16 @@ describe('service-registry: HTTP methods with Context decorator', () => {
 
             expect(res.status).to.equal(500);
             expect(JSON.stringify(res.error)).to.contains('unsupported contexttype');
+
+            done();
+        });
+    })
+
+    it('should test a method with a security context', (done) => {
+        request.agent(app).get('/books/withSecContext').end((err:any, res: request.Response) => {
+
+            expect(res.status).to.equal(200);
+            expect(res.text).to.contains('true');
 
             done();
         });

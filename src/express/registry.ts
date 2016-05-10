@@ -4,13 +4,18 @@ import * as pathUtil from './path-util';
 import { RendererFactory } from './renderers';
 import * as  winston from 'winston';
 import * as namings from './namings';
-import { ExpressContextType } from './descriptions';
+import { ExpressContextType, ISecurityContextFactory } from './descriptions';
 
 export class JsRestfulRegistry {
 
     private registeredServices:any[] = [];
+    private securityContextFactory:ISecurityContextFactory = null;
 
     constructor(private app:express.Application){}
+
+    registerSecurityContextFactory(factory:ISecurityContextFactory){
+        this.securityContextFactory = factory;
+    }
 
     registerService(service:any){
         if(typeof service === 'function'){
@@ -21,12 +26,18 @@ export class JsRestfulRegistry {
         if (this.registeredServices.indexOf(service.constructor.name) !== -1 ){
             throw new Error(`A service can only be registered once per app. ${service.constructor.name} is already resgitered.`);
         }
+
+        let descriptions = ServiceParser.parse(service);
+
+        if (descriptions.isSecurityContextUsed()){
+            if (!this.securityContextFactory){
+                throw new Error('if security features are used you need to register a SecurityContextFactory - app.use(SecurityContextFactory)');
+            }
+        }
+
         winston.log('info', `${service.constructor.name} will be registered`);
         // store the service at the app
         this.registeredServices.push(service.constructor.name);
-
-
-        let descriptions = ServiceParser.parse(service);
 
         let router = express.Router();
 
@@ -110,6 +121,10 @@ export class JsRestfulRegistry {
                 }
             }
         });
+
+        if (method.securityContextParam){
+            args[method.securityContextParam.index] = this.securityContextFactory.createSecurityContext(req);
+        }
 
         let expressContextParams: ParamDescription[] = Reflect.getMetadata(namings.expressContextParam, service,  method.methodName) || [];
         expressContextParams.forEach( (expressContextParam) => {
