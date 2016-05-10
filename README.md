@@ -41,6 +41,7 @@ So far there are the following decorators available:
 | @PermitAll    | |
 
 This npm modul adds the following decorators:
+
 |   Decorator   |   Description |
 | ------------- | ------------- |
 | @RenderWith   | |
