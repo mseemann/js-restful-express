@@ -33,6 +33,9 @@ So far there are the following decorators available:
 - @HeaderParam
 - @QueryParam
 - @Context (HttpRequest, HttpResponse)
+- @SecurityContext
+- @RolesAllowed
+- @PermitAll
 
 This npm modul adds the following decorators:
 

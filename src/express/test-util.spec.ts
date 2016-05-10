@@ -21,7 +21,7 @@ export function checkDefaultsText(err, res, done){
 export class Context implements ISecurityContext {
     user:IUser;
     isUserInRole(roleName:string):boolean{
-        return true;
+        return roleName === 'user';
     }
 }
 

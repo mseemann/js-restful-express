@@ -1,4 +1,4 @@
-import { ServiceDescription, ServiceParser, HttpMethod, ContextTypes, MethodDescription, ParamDescription } from 'js-restful';
+import { ServiceDescription, ServiceParser, HttpMethod, ContextTypes, MethodDescription, ParamDescription, ISecurityContext } from 'js-restful';
 import * as express from 'express';
 import * as pathUtil from './path-util';
 import { RendererFactory } from './renderers';
@@ -35,7 +35,7 @@ export class JsRestfulRegistry {
             }
         }
 
-        winston.log('info', `${service.constructor.name} will be registered`);
+        //winston.log('info', `${service.constructor.name} will be registered`);
         // store the service at the app
         this.registeredServices.push(service.constructor.name);
 
@@ -48,10 +48,35 @@ export class JsRestfulRegistry {
 
             let path = method.path ? method.path : '/';
 
-            winston.log('info', `register method ${method.methodName} for path ${path}`);
+            //winston.log('info', `register method ${method.methodName} for path ${path}`);
 
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 try{
+
+                    if (descriptions.isSecurityContextUsed()){
+                        let ctx:ISecurityContext = this.securityContextFactory.createSecurityContext(req);
+                        if (method.isSecurityContextUsed()){
+                            if (!method.permitAll){
+                                let allowed = method.rolesAllowed.length === 0 || method.rolesAllowed.some( (role) => {
+                                    return ctx.isUserInRole(role);
+                                });
+                                if(!allowed){
+                                    res.status(403).send('permission denied');
+                                    return;
+                                }
+                            }
+                        } else if (descriptions.permitAll || descriptions.rolesAllowed.length>0){
+                            if (!descriptions.permitAll){
+                                let allowed = descriptions.rolesAllowed.length === 0 || descriptions.rolesAllowed.some( (role) => {
+                                    return ctx.isUserInRole(role);
+                                });
+                                if(!allowed){
+                                    res.status(403).send('permission denied');
+                                    return;
+                                }
+                            }
+                        } // esle no sec check required
+                    }
 
                     var args = this.collectAndConvertArgs(req, res, next, service, method);
 
@@ -81,7 +106,7 @@ export class JsRestfulRegistry {
 
         let basePath = pathUtil.getPathFromString(descriptions.basePath);
         this.app.use(basePath, router);
-        winston.log('info', `${service.constructor.name} published at ${basePath}`);
+        //winston.log('info', `${service.constructor.name} published at ${basePath}`);
     }
 
     collectAndConvertArgs(req:express.Request, res: express.Response, next:express.NextFunction, service:Object, method:MethodDescription): any[]{

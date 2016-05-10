@@ -25,6 +25,7 @@
     "src/express/registry-post.spec.ts",
     "src/express/registry-promis.spec.ts",
     "src/express/registry-put.spec.ts",
+    "src/express/registry-sec.spec.ts",
     "src/express/registry.spec.ts",
     "src/express/registry.ts",
     "src/express/renderers.spec.ts",

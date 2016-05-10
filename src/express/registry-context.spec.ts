@@ -45,7 +45,7 @@ class TestService {
     @GET()
     @Path('/withSecContext')
     withSecContext(@SecurityContext() context:ISecurityContext){
-        return context.isUserInRole('x');
+        return context.isUserInRole('user');
     }
 }
 
