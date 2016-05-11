@@ -44,7 +44,7 @@ So far there are the following decorators available:
 
 #### Remarks
 - The HTTP Method decorators are only marker decorators. They don't have a parameter. The request path must be defined by the `@Path` decorator.
-- If you use any of the build in security capabilities you need to register a `ISecurityContextFactory`.
+- If you use any of the build in security capabilities you need to register a `ISecurityContextFactory`. See below.
 - If you specify `@RolesAllowed` or `@PermitAll` at class level and method level, the decorator at the method overwrites the decorator at class level.
 
 This npm modul adds the following decorators:
@@ -150,3 +150,15 @@ export class UserService {
 
 }
 ```
+
+## Providing a ISecurityContextFactory
+TODO
+
+## Advantages
+You may ask: what is the advantage of using decorators and TypeScript for your app? Here are some thoughts why it is useful:
+
+- You may write less code you need to maintain and test.
+- You can refactor your code with minimal impact at other parts of your application. Just move or rename your service class will not break how your service may be accessed.
+- You can change who is allowed to access your service or service method without modifying your code. You just change the decorator.
+- You can test your services more easily - if you do not use HttpReqest or HttpResponse directly you don't need to mock these objects.
+- May be you have a background in Java and know what [JAX-RS](https://jax-rs-spec.java.net) is. In this case you will be familiar with this approach.
