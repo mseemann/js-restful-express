@@ -152,7 +152,65 @@ export class UserService {
 ```
 
 ## Providing a ISecurityContextFactory
-TODO
+If you decorate your service with `@RolesAllowed`, `@PermitAll` or you are using `@SecurityContext` as a parameter
+decorator you need to provide a `ISecurityContextFactory`. js-rstful-express need this factory to create a `ISecurityContext` to decide who is permitted to access
+the service or service method.
+
+This Factory must be registered at the `ExpressServiceRegistry` before you register your service classes:
+```TypeScript
+ExpressServiceRegistry.registerSecurityContextFactory(app, new SecurityContextFactory());
+```
+Here is a sample implementation that assumes you are using passport for authentication:
+
+```TypeScript
+class SecurityContextFactory implements ISecurityContextFactory {
+
+  createSecurityContext(req:express.Request):ISecurityContext {
+    return new SecurityContext(req);
+  }
+
+}
+```
+The `SecurityContext` needs to be created for every request!
+```TypeScript
+class SecurityContext implements ISecurityContext {
+
+  user:User;
+
+  constructor(private req:express.Request){
+    this.user = new User(req);
+  }
+
+  isUserInRole(roleName:string):boolean {
+    if(!this.user.isLoggedIn()){
+      return false;
+    }
+    return this.user.hasRole(roleName);
+  }
+}
+```
+```TypeScript
+export default class User implements IUser {
+
+  private passportUser:any;
+  private roles:string[] = [];
+
+  constructor(private req:express.Request){
+
+    if (req.isAuthenticated()){
+      this.passportUser = req.user;
+    }
+  }
+
+  isLoggedIn():boolean{
+    return this.passportUser ? true : false;
+  }
+
+  hasRole(roleName:string):boolean {
+    return this.passportUser.roles.indexOf(roleName) != -1;
+  }
+}
+```
 
 ## Advantages
 You may ask: what is the advantage of using decorators and TypeScript for your app? Here are some thoughts why it is useful:
