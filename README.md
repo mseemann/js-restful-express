@@ -177,7 +177,7 @@ class SecurityContext implements ISecurityContext {
 
   user:User;
 
-  constructor(reeq:express.Request){
+  constructor(req:express.Request){
     this.user = new User(req);
   }
 
