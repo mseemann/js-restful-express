@@ -177,7 +177,7 @@ class SecurityContext implements ISecurityContext {
 
   user:User;
 
-  constructor(private req:express.Request){
+  constructor(reeq:express.Request){
     this.user = new User(req);
   }
 
@@ -195,7 +195,7 @@ export default class User implements IUser {
   private passportUser:any;
   private roles:string[] = [];
 
-  constructor(private req:express.Request){
+  constructor(req:express.Request){
 
     if (req.isAuthenticated()){
       this.passportUser = req.user;
