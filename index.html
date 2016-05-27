@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Js-restful-express by mseemann</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Js-restful-express</h1>
+      <h2 class="project-tagline">Create a RESTful service with ES7 decorators for your express based node.js application.</h2>
+      <a href="https://github.com/mseemann/js-restful-express" class="btn">View on GitHub</a>
+      <a href="https://github.com/mseemann/js-restful-express/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/mseemann/js-restful-express/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="js-restful-express" class="anchor" href="#js-restful-express" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>js-restful-express</h1>
+
+<p>Create a RESTful service with ES7 decorators for your express based node.js application.</p>
+
+<p><a href="https://travis-ci.org/mseemann/js-restful-express"><img src="http://img.shields.io/travis/mseemann/js-restful-express.svg?style=flat" alt="CI Status"></a>
+<a href="http://badge.fury.io/js/js-restful-express"><img src="https://badge.fury.io/js/js-restful-express.svg" alt="npm version"></a>
+<a href="https://npmjs.org/package/js-restful-express"><img src="http://img.shields.io/npm/dm/js-restful-express.svg" alt="Downloads"></a>
+<a href="https://coveralls.io/github/mseemann/js-restful-express?branch=master"><img src="https://coveralls.io/repos/github/mseemann/js-restful-express/badge.svg?branch=master" alt="Coverage Status"></a>
+<a href="https://codeclimate.com/github/mseemann/js-restful-express"><img src="https://codeclimate.com/github/mseemann/js-restful-express/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/mseemann/js-restful-express/coverage"><img src="https://codeclimate.com/github/mseemann/js-restful-express/badges/coverage.svg" alt="Test Coverage"></a>
+<a href="https://codeclimate.com/github/mseemann/js-restful-express"><img src="https://codeclimate.com/github/mseemann/js-restful-express/badges/issue_count.svg" alt="Issue Count"></a>
+<a href="http://issuestats.com/github/mseemann/js-restful-express"><img src="http://issuestats.com/github/mseemann/js-restful-express/badge/issue" alt="Issue Stats"></a></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<div class="highlight highlight-source-shell"><pre>npm install js-restful-express --save</pre></div>
+
+<p>This module requires reflect-metadata as a peer dependency. This is essential to make the decorators working. It must be ensured
+that this module is only loaded once. Otherwise the decorated information will be lost at runtime. Keep in mind that this is
+a shim and until now not a language feature!</p>
+
+<h2>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites</h2>
+
+<ul>
+<li>You use TypeScript for your app</li>
+<li>You use express 4.x as your http framework for your node.js application</li>
+</ul>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>Decorate your service class with the decorators from the <a href="https://github.com/mseemann/js-restful">js-restful</a> Github-project.
+So far there are the following decorators available:</p>
+
+<table>
+<thead>
+<tr>
+<th>Decorator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/Path" class="user-mention">@Path</a></td>
+<td>The path under which the service will be published. The decorator can be used at class and method level. You need to provide a path as string.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/GET" class="user-mention">@GET</a></td>
+<td>Decorator that indicates a HTTP GET method.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/POST" class="user-mention">@POST</a></td>
+<td>Decorator that indicates a HTTP POST method.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/PUT" class="user-mention">@PUT</a></td>
+<td>Decorator that indicates a HTTP PUT method.</td>
+</tr>
+<tr>
+<td><a href="https://github.com/DELETE" class="user-mention">@DELETE</a></td>
+<td>Decorator that indicates a HTTP DELETE method.</td>
+</tr>
+<tr>
+<td>@PathParam</td>
+<td>A method parameter may be decorated with the <code>@PathParam</code> decorator. The decorator reuquires a string parameter - the name of the parameter. The name must be present within the Path. For example <code>/books/:id</code>. One can access the id parameter parameter with <code>@PathParam('id')</code>
+</td>
+</tr>
+<tr>
+<td>@HeaderParam</td>
+<td>You can access the http header information in the same way as a path parameter. The difference is, that the value will be determined by a http header entry at runtime. For example if you want to access a token that is stored in the http header use: <code>@HeaderParam('token)</code>
+</td>
+</tr>
+<tr>
+<td><a href="https://github.com/QueryParam" class="user-mention">@QueryParam</a></td>
+<td>If you want to access url query parameters from your service use this decorator. For example in a url like this: <code>/books?readed=true</code> you can use <code>@QueryParam('readed')</code>
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/Context" class="user-mention">@Context</a> (HttpRequest, HttpResponse)</td>
+<td>Sometime it may be necessary to play around with the original HttpRequest or the HttpResponse. In this case you can use the <code>@Context</code> decorator. For Example <code>@Context(ContextTpyes.HttpRequest)</code>
+</td>
+</tr>
+<tr>
+<td>@SecurityContext</td>
+<td>This module provides decorators that can deal with security concerns out of the box. If this doesn't fits your needs you can inject the SecurityContext manually. For example: <code>withSecContext(@SecurityContext() context:ISecurityContext)</code>
+</td>
+</tr>
+<tr>
+<td><a href="https://github.com/RolesAllowed" class="user-mention">@RolesAllowed</a></td>
+<td>You may restrict the access to all methods of a class or a specific method. Just use the <code>@RolesAllowed</code> decorator: <code>@RolesAllowed(['admin'])</code>
+</td>
+</tr>
+<tr>
+<td>@PermitAll</td>
+<td>If you want you service or service methods to be called by everyone use <code>@PermitAll</code>
+</td>
+</tr>
+</tbody>
+</table>
+
+<h4>
+<a id="remarks" class="anchor" href="#remarks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remarks</h4>
+
+<ul>
+<li>The HTTP Method decorators are only marker decorators. They don't have a parameter. The request path must be defined by the <code>@Path</code> decorator.</li>
+<li>If you use any of the build in security capabilities you need to register a <code>ISecurityContextFactory</code>. See below.</li>
+<li>If you specify <code>@RolesAllowed</code> or <code>@PermitAll</code> at class level and method level, the decorator at the method overwrites the decorator at class level.</li>
+</ul>
+
+<p>This npm modul adds the following decorators:</p>
+
+<table>
+<thead>
+<tr>
+<th>Decorator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@RenderWith</td>
+<td>The decorator expects a string as parameter. This is the view that should be used to render the result. For example: <code>@RenderWith('index')</code> will render the result of the service method with a view named <code>index</code>. You need to configure express with your preferred render engine: <code>app.set('view engine', 'pug');</code>.</td>
+</tr>
+<tr>
+<td>@ExpressContext (HttpNextFunction)</td>
+<td>The express framework provides a <code>next</code> function. If you need access to this function from within your service you may use this decorator for a method parameter.</td>
+</tr>
+</tbody>
+</table>
+
+<p>A more elaborate example:</p>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">import</span> { GET, POST, PUT, DELETE, Path, PathParam, HeaderParam } <span class="pl-k">from</span> <span class="pl-s">'js-restful'</span>;
+
+
+@Path(<span class="pl-s">'/books'</span>)
+<span class="pl-k">class</span> <span class="pl-en">BookService</span> {
+
+    @<span class="pl-en">GET</span>()
+    <span class="pl-en">allBooks</span>() : Book[]{
+       <span class="pl-k">return</span> [];
+    }
+
+    @<span class="pl-en">Path</span>('/:name<span class="pl-s">')</span>
+    @<span class="pl-v">POST</span>()
+    <span class="pl-en">createBook</span>(@<span class="pl-v">PathParam</span>('<span class="pl-v">name</span>') name:<span class="pl-k">string</span>, @<span class="pl-en">HeaderParam</span>('<span class="pl-v">token</span>') token:<span class="pl-k">string</span>) :Book {
+        <span class="pl-k">return</span> {id:<span class="pl-c1">1</span>, name:name};
+    }
+
+    @<span class="pl-en">Path</span>('/:id/:name<span class="pl-s">')</span>
+    @<span class="pl-v">PUT</span>()
+    <span class="pl-en">updateBook</span>(@<span class="pl-v">PathParam</span>('<span class="pl-v">id</span>') id:<span class="pl-k">number</span>, @<span class="pl-en">PathParam</span>('<span class="pl-v">name</span>') name:<span class="pl-k">string</span>) : Book {
+        <span class="pl-k">return</span> {id:id, name:name};
+    }
+
+    @<span class="pl-en">Path</span>('/:id<span class="pl-s">')</span>
+    @<span class="pl-v">DELETE</span>()
+    <span class="pl-en">deleteBook</span>(@<span class="pl-v">PathParam</span>('<span class="pl-v">id</span>') id:<span class="pl-k">number</span>): <span class="pl-k">boolean</span> {
+        <span class="pl-k">return</span> <span class="pl-c1">true</span>;
+    }
+}</pre></div>
+
+<p>After you have done this, setup your express app as you usually would. Then you can register a decorated instance of your service:</p>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">import</span> { ExpressServiceRegistry } <span class="pl-k">from</span> <span class="pl-s">'./service-registry'</span>;
+<span class="pl-k">import</span> <span class="pl-k">*</span> <span class="pl-k">as</span> express <span class="pl-k">from</span> <span class="pl-s">'express'</span>;
+
+<span class="pl-k">let</span> <span class="pl-v">app</span> = express();
+ExpressServiceRegistry.registerService(app, <span class="pl-k">new</span> BookService());</pre></div>
+
+<p>That's it. Now your service is published as an RESTful service in your express app.</p>
+
+<p>If you start your app you can access the urls:</p>
+
+<pre>
+GET     /books                      -&gt; []
+POST    /books/simpsons             -&gt; {id:1, name:'simpsons'}
+PUT     /books/1/Huckleberry Finn   -&gt; {id:1, name:'Huckleberry Finn'}
+DELETE  /books/1                    -&gt; true
+</pre>
+
+<h2>
+<a id="supported-return-types" class="anchor" href="#supported-return-types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Return Types</h2>
+
+<p>So far we have seen that all servcie methods are synchronous. You can return simple javascript types or complex objects.
+If you simply return a boolean, number, string these values will be returned as text/plain. null or undefined are
+returned as text/plain if no HttpResponse-object is injected in the service method (in this case you have full control what should be returned to the client).
+If you returns a complex object the result will be send as application/json.</p>
+
+<p>But what if your service method is asynchronous? In this case you can use es6 promises. For example:</p>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">import</span> {Promise} <span class="pl-k">from</span> <span class="pl-s">'es6-promise'</span>;
+
+@Path(<span class="pl-s">'/'</span>)
+<span class="pl-k">class</span> <span class="pl-en">TestService</span> {
+
+    @<span class="pl-en">GET</span>()
+    <span class="pl-en">get</span>(){
+        <span class="pl-k">const</span> <span class="pl-v">p</span>: <span class="pl-en">Promise</span>&lt;<span class="pl-k">any</span>&gt; <span class="pl-k">=</span> <span class="pl-k">new</span> Promise ((resolve, reject) <span class="pl-k">=&gt;</span> {
+          <span class="pl-en">resolve</span>([{<span class="pl-v">foo</span>:<span class="pl-s">'bar'</span>}]);
+        });
+        <span class="pl-k">return</span> p;
+    }
+}</pre></div>
+
+<p>If you access the url '/' you will get <code>[{foo:'bar'}]</code> as the result. May be this is too much code for you - for me it is <g-emoji alias="smirk" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f60f.png">😏</g-emoji> .
+Keep in mind that there are a lot of node modules that already use promisses. For example mongoose. With this you service could be as short as:</p>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">import</span> {Path, GET, RolesAllowed} <span class="pl-k">from</span> <span class="pl-s">'js-restful'</span>;
+<span class="pl-k">import</span> {User} <span class="pl-k">from</span> <span class="pl-s">'./../models/userModel'</span>;
+
+@Path(<span class="pl-s">'/users'</span>)
+@RolesAllowed([<span class="pl-s">'admin'</span>])
+<span class="pl-k">export</span> <span class="pl-k">class</span> <span class="pl-en">UserService</span> {
+
+  @<span class="pl-en">GET</span>()
+  <span class="pl-en">users</span>(){
+    <span class="pl-k">return</span> User.find({}).exec();
+  }
+
+}</pre></div>
+
+<h2>
+<a id="providing-a-isecuritycontextfactory" class="anchor" href="#providing-a-isecuritycontextfactory" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Providing a ISecurityContextFactory</h2>
+
+<p>If you decorate your service with <code>@RolesAllowed</code>, <code>@PermitAll</code> or you are using <code>@SecurityContext</code> as a parameter
+decorator you need to provide a <code>ISecurityContextFactory</code>. js-rstful-express need this factory to create a <code>ISecurityContext</code> to decide who is permitted to access
+the service or service method.</p>
+
+<p>This Factory must be registered at the <code>ExpressServiceRegistry</code> before you register your service classes:</p>
+
+<div class="highlight highlight-source-ts"><pre>ExpressServiceRegistry.registerSecurityContextFactory(app, <span class="pl-k">new</span> SecurityContextFactory());</pre></div>
+
+<p>Here is a sample implementation that assumes you are using passport for authentication:</p>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">class</span> <span class="pl-en">SecurityContextFactory</span> <span class="pl-k">implements</span> <span class="pl-k">ISecurityContextFactory</span> {
+
+  <span class="pl-en">createSecurityContext</span>(<span class="pl-v">req</span>:express.Request):ISecurityContext {
+    <span class="pl-k">return</span> <span class="pl-k">new</span> SecurityContext(req);
+  }
+
+}</pre></div>
+
+<p>The <code>SecurityContext</code> needs to be created for every request!</p>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">class</span> <span class="pl-en">SecurityContext</span> <span class="pl-k">implements</span> <span class="pl-k">ISecurityContext</span> {
+
+  <span class="pl-v">user</span>:User;
+
+  <span class="pl-en">constructor</span>(<span class="pl-v">req</span>:express.Request){
+    <span class="pl-c1">this</span>.user <span class="pl-k">=</span> <span class="pl-k">new</span> User(req);
+  }
+
+  <span class="pl-en">isUserInRole</span>(<span class="pl-v">roleName</span>:<span class="pl-k">string</span>):<span class="pl-k">boolean</span> {
+    <span class="pl-k">if</span>(<span class="pl-k">!</span><span class="pl-c1">this</span>.user.isLoggedIn()){
+      <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+    }
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.user.hasRole(roleName);
+  }
+}</pre></div>
+
+<div class="highlight highlight-source-ts"><pre><span class="pl-k">export</span> <span class="pl-k">default</span> <span class="pl-k">class</span> <span class="pl-en">User</span> <span class="pl-k">implements</span> <span class="pl-k">IUser</span> {
+
+  <span class="pl-k">private</span> <span class="pl-v">passportUser</span>:<span class="pl-k">any</span>;
+  <span class="pl-k">private</span> <span class="pl-v">roles</span>:<span class="pl-k">string</span>[] <span class="pl-k">=</span> [];
+
+  <span class="pl-en">constructor</span>(<span class="pl-v">req</span>:express.Request){
+
+    <span class="pl-k">if</span> (req.isAuthenticated()){
+      <span class="pl-c1">this</span>.passportUser <span class="pl-k">=</span> req.user;
+    }
+  }
+
+  <span class="pl-en">isLoggedIn</span>():<span class="pl-k">boolean</span>{
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.passportUser ? <span class="pl-c1">true</span> : <span class="pl-c1">false</span>;
+  }
+
+  <span class="pl-en">hasRole</span>(<span class="pl-v">roleName</span>:<span class="pl-k">string</span>):<span class="pl-k">boolean</span> {
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.passportUser.roles.indexOf(roleName) <span class="pl-k">!=</span> <span class="pl-k">-</span><span class="pl-c1">1</span>;
+  }
+}</pre></div>
+
+<h2>
+<a id="advantages" class="anchor" href="#advantages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Advantages</h2>
+
+<p>You may ask: what is the advantage of using decorators and TypeScript for your app? Here are some thoughts why it is useful:</p>
+
+<ul>
+<li>You may write less code you need to maintain and test.</li>
+<li>You can refactor your code with minimal impact at other parts of your application. Just move or rename your service class will not break how your service may be accessed.</li>
+<li>You can change who is allowed to access your service or service method without modifying your code. You just change the decorator.</li>
+<li>You can test your services more easily - if you do not use HttpReqest or HttpResponse directly you don't need to mock these objects.</li>
+<li>May be you have a background in Java and know what <a href="https://jax-rs-spec.java.net">JAX-RS</a> is. In this case you will be familiar with this approach.</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/mseemann/js-restful-express">Js-restful-express</a> is maintained by <a href="https://github.com/mseemann">mseemann</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
