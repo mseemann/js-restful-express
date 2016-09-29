@@ -14,7 +14,7 @@ Create a RESTful service with ES7 decorators for your express based node.js appl
 ```bash
 npm install js-restful-express --save
 ```
-This module requires reflect-metadata as a peer dependency. This is essential to make the decorators working. It must be ensured
+You need to use a es7 reflect metadata shim (reflect-metadat or core-js). This is essential to make the decorators working. It must be ensured
 that this module is only loaded once. Otherwise the decorated information will be lost at runtime. Keep in mind that this is
 a shim and until now not a language feature!
 
