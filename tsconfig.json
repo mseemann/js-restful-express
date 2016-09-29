@@ -3,35 +3,19 @@
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
+    "lib": ["es6", "dom"],
     "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": false,
     "noImplicitAny": false,
-    "declaration": true
-  },
-  "files":[
-    "typings/main.d.ts",
-    "src/js-restful-express.ts",
-    "src/express/decorators.spec.ts",
-    "src/express/decorators.ts",
-    "src/express/descriptions.ts",
-    "src/express/namings.ts",
-    "src/express/path-util.ts",
-    "src/express/path-util.spec.ts",
-    "src/express/registry-context.spec.ts",
-    "src/express/registry-delete.spec.ts",
-    "src/express/registry-get.spec.ts",
-    "src/express/registry-post.spec.ts",
-    "src/express/registry-promis.spec.ts",
-    "src/express/registry-put.spec.ts",
-    "src/express/registry-sec.spec.ts",
-    "src/express/registry.spec.ts",
-    "src/express/registry.ts",
-    "src/express/renderers.spec.ts",
-    "src/express/renderers.ts",
-    "src/express/service-registry.spec.ts",
-    "src/express/service-registry.ts",
-    "src/express/test-util.spec.ts"
-  ]
+    "declaration": true,
+    "typeRoots": [
+      "../node_modules/@types"
+    ],
+    "types": [
+      "mocha",
+      "reflect-metadata" // the typings for core-js are limited - es7.reflect is missing :( use reflect-metadata typings insted
+    ]
+  }
 }

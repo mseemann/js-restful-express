@@ -5,11 +5,10 @@
   "main": "src/js-restful-express.js",
   "typings": "./src/js-restful-express.d.ts",
   "scripts": {
-    "install_typings": "typings install",
-    "pretest": "typings install && tsc",
-    "test": "istanbul cover node_modules/mocha/bin/_mocha --report lcov -x '*.spec.*'  -- -c --check-leaks --require ts-node/register --recursive --reporter spec src/**/*.spec.ts",
+    "pretest": "tsc",
+    "test": "istanbul cover node_modules/mocha/bin/_mocha --report lcov -x '*.spec.*'  -- -c --check-leaks --require ts-node/register --require core-js --recursive --reporter spec src/**/*.spec.ts",
     "quicktest": "mocha -c --check-leaks --require ts-node/register --recursive --reporter spec src/**/*.spec.ts",
-    "prepublish": "typings install && tsc",
+    "prepublish": "tsc",
     "docs": "jsdoc -c config/jsdoc-conf.json -r src"
   },
   "repository": {
@@ -30,19 +29,29 @@
   ],
   "author": "Michael Seemann",
   "license": "MIT",
-  "peerDependencies": {
-    "reflect-metadata": "0.1.2"
-  },
+  "peerDependencies": {},
   "dependencies": {
-    "es6-promise": "^3.1.2",
     "express": "^4.13.4",
-    "js-restful": "^1.1.7",
-    "winston": "^2.2.0",
-    "reflect-metadata": "0.1.2"
+    "js-restful": "^2.0.0",
+    "winston": "^2.2.0"
   },
   "devDependencies": {
+    "@types/body-parser": "0.0.33",
+    "@types/chai": "^3.4.34",
+    "@types/express": "^4.0.33",
+    "@types/express-serve-static-core": "^4.0.36",
+    "@types/method-override": "0.0.28",
+    "@types/mime": "0.0.29",
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.41",
+    "@types/reflect-metadata": "0.0.4",
+    "@types/serve-static": "^1.7.31",
+    "@types/superagent": "^2.0.34",
+    "@types/supertest": "^1.1.31",
+    "@types/winston": "0.0.28",
     "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.3.1",
+    "core-js": "^2.4.1",
     "istanbul": "^0.4.3",
     "jsdoc": "^3.4.0",
     "mocha": "^2.4.5",
@@ -50,9 +59,9 @@
     "pug": "^2.0.0-alpha6",
     "supertest": "^1.2.0",
     "ts-node": "^0.7.2",
-    "tslint": "3.8.1",
-    "typescript": "1.8.10",
-    "typings": "0.8.1"
+    "tslint": "3.15.1",
+    "typescript": "2.0.3",
+    "typings": "1.4.0"
   },
   "bugs": {
     "url": "https://github.com/mseemann/js-restful-express/issues"

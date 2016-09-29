@@ -1,5 +1,4 @@
 import * as express from 'express';
-import 'reflect-metadata';
 import * as namings from './namings';
 import { MethodDescription, ParamDescription, ContextTypes } from 'js-restful';
 

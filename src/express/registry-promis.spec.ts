@@ -4,7 +4,6 @@ import {expect} from 'chai';
 import * as request from 'supertest';
 import { Path, GET } from 'js-restful';
 import * as util from './test-util.spec';
-import {Promise} from 'es6-promise';
 
 let anyBook = {a:'b'};
 

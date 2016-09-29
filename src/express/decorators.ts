@@ -1,5 +1,4 @@
 import * as namings from './namings';
-import 'reflect-metadata';
 import { ExpressContextType } from './descriptions';
 import { DecoratorUtil } from 'js-restful';
 
