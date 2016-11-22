@@ -48,7 +48,7 @@
     "@types/serve-static": "^1.7.31",
     "@types/superagent": "^2.0.34",
     "@types/supertest": "^1.1.31",
-    "@types/winston": "0.0.31",
+    "@types/winston": "0.0.32",
     "chai": "^3.5.0",
     "codeclimate-test-reporter": "^0.4.0",
     "core-js": "^2.4.1",
