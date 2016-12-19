@@ -61,7 +61,7 @@
     "ts-node": "^1.7.0",
     "tslint": "4.0.1",
     "typescript": "2.1.4",
-    "typings": "2.0.0"
+    "typings": "2.1.0"
   },
   "bugs": {
     "url": "https://github.com/mseemann/js-restful-express/issues"
