@@ -57,7 +57,7 @@
     "mocha": "^3.1.2",
     "mocha-lcov-reporter": "^1.2.0",
     "pug": "^2.0.0-alpha6",
-    "supertest": "^2.0.1",
+    "supertest": "^3.0.0",
     "ts-node": "^1.7.0",
     "tslint": "4.2.0",
     "typescript": "2.1.4",
