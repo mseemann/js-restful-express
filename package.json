@@ -60,7 +60,7 @@
     "supertest": "^3.0.0",
     "ts-node": "^3.0.0",
     "tslint": "4.5.1",
-    "typescript": "2.2.1",
+    "typescript": "2.3.3",
     "typings": "2.1.0"
   },
   "bugs": {
