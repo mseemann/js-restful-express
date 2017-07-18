@@ -1,4 +1,4 @@
-import { ServiceDescription, ServiceParser, HttpMethod, ContextTypes, MethodDescription, ParamDescription, ISecurityContext } from 'js-restful';
+import { ServiceParser, HttpMethod, ContextTypes, MethodDescription, ParamDescription, ISecurityContext } from 'js-restful';
 import * as express from 'express';
 import * as pathUtil from './path-util';
 import { RendererFactory } from './renderers';
@@ -44,7 +44,7 @@ export class JsRestfulRegistry {
         descriptions.methods.forEach( (method) => {
             // create a http method name from the enum. the enum are capitalized http method
             // - so, convert to string and convert to lowercase is enough.
-            var httpMethodName = HttpMethod[method.httpMethod].toLowerCase();
+            const httpMethodName = HttpMethod[method.httpMethod].toLowerCase();
 
             let path = method.path ? method.path : '/';
 
@@ -75,10 +75,10 @@ export class JsRestfulRegistry {
                                     return;
                                 }
                             }
-                        } // esle no sec check required
+                        } // else no sec check required
                     }
 
-                    var args = this.collectAndConvertArgs(req, res, next, service, method);
+                    const args = this.collectAndConvertArgs(req, res, next, service, method);
 
                     let methodToCall =service[method.methodName];
 
@@ -102,7 +102,7 @@ export class JsRestfulRegistry {
                 }
             });
 
-        })
+        });
 
         let basePath = pathUtil.getPathFromString(descriptions.basePath);
         this.app.use(basePath, router);
@@ -110,7 +110,7 @@ export class JsRestfulRegistry {
     }
 
     collectAndConvertArgs(req:express.Request, res: express.Response, next:express.NextFunction, service:Object, method:MethodDescription): any[]{
-        var args = [];
+        const args = [];
 
         args.length = method.pathParams.length + method.headerParams.length + method.queryParams.length + method.contextParams.length;
 
@@ -118,17 +118,17 @@ export class JsRestfulRegistry {
             // this is always a string
             let rawParam = req.params[pathParam.paramName];
             args[pathParam.index] = this.convertRawParamToMethodParam(service, method, pathParam, rawParam);
-        })
+        });
 
         method.headerParams.forEach( (headerParam) => {
             let rawParam = req.header(headerParam.paramName);
             args[headerParam.index] = this.convertRawParamToMethodParam(service, method, headerParam, rawParam);
-        })
+        });
 
         method.queryParams.forEach( (queryParam) => {
             let rawParam = req.query[queryParam.paramName];
             args[queryParam.index] = this.convertRawParamToMethodParam(service, method, queryParam, rawParam);
-        })
+        });
 
         method.contextParams.forEach( (contextParam) => {
             let contextType:ContextTypes = ContextTypes[contextParam.paramName];
@@ -163,7 +163,7 @@ export class JsRestfulRegistry {
                     throw new Error(`unsupported contexttype ${expressContextParam.paramName}`);
                 }
             }
-        })
+        });
 
         return args;
     }
@@ -174,8 +174,7 @@ export class JsRestfulRegistry {
         if(paramTypes && paramTypes.length >= pathParam.index){
             // this is a constructor function of the expected type
             let paramType = paramTypes[pathParam.index];
-            let expectedValue =  (rawParam === null || rawParam === undefined) ? null :  paramType(rawParam);
-            return expectedValue;
+            return (rawParam === null || rawParam === undefined) ? null :  paramType(rawParam);;
         } else {
             // ther is no way to figure out what the expected type is - pass it as string
             return rawParam;

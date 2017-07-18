@@ -80,9 +80,9 @@ class TestServiceB{
 
 describe('service-registry: HTTP GET methods', () => {
 
-    var app;
-    var testService;
-    var testServiceB;
+    let app;
+    let testService;
+    let testServiceB;
     
 
     beforeEach( ()=>{
@@ -116,7 +116,7 @@ describe('service-registry: HTTP GET methods', () => {
 
             done();
         });
-    })
+    });
 
     it('should test a GET method with a path', (done) => {
 
@@ -128,7 +128,7 @@ describe('service-registry: HTTP GET methods', () => {
 
             done();
         });
-    })
+    });
 
     it('should test a GET method that returns a boolean', (done) => {
 
@@ -141,7 +141,7 @@ describe('service-registry: HTTP GET methods', () => {
             done();
         });
 
-    })
+    });
 
     it('should test a GET method that returns  nothing', (done) => {
 
@@ -154,7 +154,7 @@ describe('service-registry: HTTP GET methods', () => {
             done();
         });
 
-    })
+    });
 
     it('should test a GET method that returns a number', (done) => {
 
@@ -167,7 +167,7 @@ describe('service-registry: HTTP GET methods', () => {
             done();
         });
 
-    })
+    });
 
     it('should test a GET method that returns a string', (done) => {
 
@@ -180,7 +180,7 @@ describe('service-registry: HTTP GET methods', () => {
             done();
         });
 
-    })
+    });
 
     it('should deal with services with no provided path as the default path', (done) => {
         request.agent(app).get('/').end((err:any, res: request.Response) => {
@@ -191,7 +191,7 @@ describe('service-registry: HTTP GET methods', () => {
 
             done();
         });
-    })
+    });
 
     it('should test a GET method with a path and three params', (done) => {
 
