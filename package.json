@@ -1,6 +1,6 @@
 {
   "name": "js-restful-express",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Create a RESTful service with ES6 decorators for your express based node.js application.",
   "main": "src/js-restful-express.js",
   "typings": "./src/js-restful-express.d.ts",
@@ -60,7 +60,7 @@
     "supertest": "^3.0.0",
     "ts-node": "^3.0.0",
     "tslint": "4.5.1",
-    "typescript": "2.2.1",
+    "typescript": "^2.2.1",
     "typings": "2.1.0"
   },
   "bugs": {

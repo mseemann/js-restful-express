@@ -174,7 +174,7 @@ export class JsRestfulRegistry {
         if(paramTypes && paramTypes.length >= pathParam.index){
             // this is a constructor function of the expected type
             let paramType = paramTypes[pathParam.index];
-            let expectedValue = paramType(rawParam);
+            let expectedValue =  (rawParam === null || rawParam === undefined) ? null :  paramType(rawParam);
             return expectedValue;
         } else {
             // ther is no way to figure out what the expected type is - pass it as string
