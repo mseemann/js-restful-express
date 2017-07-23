@@ -43,7 +43,7 @@
     "@types/method-override": "0.0.29",
     "@types/mime": "0.0.29",
     "@types/mocha": "^2.2.32",
-    "@types/node": "^7.0.0",
+    "@types/node": "^8.0.9",
     "@types/reflect-metadata": "0.0.5",
     "@types/serve-static": "^1.7.31",
     "@types/superagent": "^2.0.34",
