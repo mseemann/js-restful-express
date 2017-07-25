@@ -1,12 +1,12 @@
 import * as express from "express";
-import { JsRestfulRegistry } from './registry';
+import { JsRestfulRegistry, JsRestfulRegistryConfig } from './registry';
 import { ISecurityContext } from 'js-restful';
 import { ISecurityContextFactory } from './descriptions';
 
 export class ExpressServiceRegistry {
 
-    private static initJsResutfulRegistry(app: express.Application){
-        app.locals.jsResutfulRegistry = app.locals.jsResutfulRegistry || new JsRestfulRegistry(app);
+    private static initJsResutfulRegistry(app: express.Application, config?: JsRestfulRegistryConfig){
+        app.locals.jsResutfulRegistry = app.locals.jsResutfulRegistry || new JsRestfulRegistry(app, config);
     }
 
     static registerSecurityContextFactory(app: express.Application, factory:ISecurityContextFactory){

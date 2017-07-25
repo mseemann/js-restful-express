@@ -6,12 +6,20 @@ import * as  winston from 'winston';
 import * as namings from './namings';
 import { ExpressContextType, ISecurityContextFactory } from './descriptions';
 
+export interface JsRestfulRegistryConfig {
+    logger?: winston.Winston | winston.LoggerInstance;
+}
+
 export class JsRestfulRegistry {
 
     private registeredServices:any[] = [];
     private securityContextFactory:ISecurityContextFactory = null;
 
-    constructor(private app:express.Application){}
+    constructor(private app:express.Application, private config: JsRestfulRegistryConfig = {}){
+        if (!config.logger) {
+            config.logger = winston;
+        }
+    }
 
     registerSecurityContextFactory(factory:ISecurityContextFactory){
         this.securityContextFactory = factory;
@@ -35,7 +43,7 @@ export class JsRestfulRegistry {
             }
         }
 
-        winston.log('info', `${service.constructor.name} will be registered`);
+        this.config.logger.info(`${service.constructor.name} will be registered`);
         // store the service at the app
         this.registeredServices.push(service.constructor.name);
 
@@ -48,7 +56,7 @@ export class JsRestfulRegistry {
 
             let path = method.path ? method.path : '/';
 
-            winston.log('info', `register method ${method.methodName} for path ${path}`);
+            this.config.logger.info(`register method ${method.methodName} for path ${path}`);
 
             router[httpMethodName](path, (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 try{
@@ -106,7 +114,7 @@ export class JsRestfulRegistry {
 
         let basePath = pathUtil.getPathFromString(descriptions.basePath);
         this.app.use(basePath, router);
-        winston.log('info', `${service.constructor.name} published at ${basePath}`);
+        this.config.logger.info(`${service.constructor.name} published at ${basePath}`);
     }
 
     collectAndConvertArgs(req:express.Request, res: express.Response, next:express.NextFunction, service:Object, method:MethodDescription): any[]{
