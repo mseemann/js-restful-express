@@ -5,20 +5,20 @@ import { ISecurityContextFactory } from './descriptions';
 
 export class ExpressServiceRegistry {
 
-    private static initJsResutfulRegistry(app: express.Application, config?: JsRestfulRegistryConfig){
+    static initJsRestfulRegistry(app: express.Application, config?: JsRestfulRegistryConfig){
         app.locals.jsResutfulRegistry = app.locals.jsResutfulRegistry || new JsRestfulRegistry(app, config);
     }
 
     static registerSecurityContextFactory(app: express.Application, factory:ISecurityContextFactory){
 
-        this.initJsResutfulRegistry(app);
+        this.initJsRestfulRegistry(app);
 
         app.locals.jsResutfulRegistry.registerSecurityContextFactory(factory);
     }
 
     static registerService(app: express.Application, service:any){
 
-        this.initJsResutfulRegistry(app);
+        this.initJsRestfulRegistry(app);
 
         app.locals.jsResutfulRegistry.registerService(service);
     }
