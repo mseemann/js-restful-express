@@ -1,5 +1,5 @@
 import { ExpressServiceRegistry } from './service-registry';
-import { JsRestfulRegistry } from './registry';
+import { JsRestfulRegistryConfig } from './registry';
 import * as express from 'express';
 import {expect} from 'chai';
 import { Factory } from './test-util.spec';
@@ -35,7 +35,7 @@ describe('service-registry', () => {
     })
 
     it('should be possible to initialize the registry with a config object', () => {
-        const config = {test: true};
+        const config: JsRestfulRegistryConfig = {logger: null};
         ExpressServiceRegistry.initJsRestfulRegistry(app, config);
         expect(app.locals.jsResutfulRegistry.config).to.equal(config);
     });
