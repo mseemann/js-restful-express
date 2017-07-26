@@ -2,6 +2,7 @@ import { JsRestfulRegistry } from './registry';
 import * as express from 'express';
 import {expect} from 'chai';
 import { PermitAll } from 'js-restful';
+import * as winston  from 'winston';
 import { Factory } from './test-util.spec';
 
 class TestServiceC {
@@ -61,7 +62,7 @@ describe('service-registry', () => {
 
         expect(fn).to.throw(Error);
     })
-    
+
     it('should be possible to register a service with sec context if a factory is registered', ()=>{
 
         var fn = () => {
@@ -72,4 +73,21 @@ describe('service-registry', () => {
 
         expect(fn).to.not.throw(Error);
     })
+
+    it('should be possible to set a custom logger', () => {
+        class SpyLogger extends winston.Logger {
+            called = false;
+            log = () =>  {
+                this.called = true;
+                return this;
+            }
+        }
+
+        const logger = new SpyLogger();
+        const registry = new JsRestfulRegistry(app, { logger: logger });
+
+        registry.registerService(new TestServiceC());
+
+        expect(logger.called).to.be.true;
+    });
 });

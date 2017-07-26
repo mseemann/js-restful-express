@@ -34,4 +34,10 @@ describe('service-registry', () => {
         expect(fn).to.not.throw(Error);
     })
 
+    it('should be possible to initialize the registry with a config object', () => {
+        const config = {test: true};
+        ExpressServiceRegistry.initJsRestfulRegistry(app, config);
+        expect(app.locals.jsResutfulRegistry.config).to.equal(config);
+    });
+
 });

@@ -33,7 +33,7 @@ So far there are the following decorators available:
 | @POST         | Decorator that indicates a HTTP POST method.|
 | @PUT          | Decorator that indicates a HTTP PUT method.|
 | @DELETE       | Decorator that indicates a HTTP DELETE method.|
-| @PathParam    | A method parameter may be decorated with the `@PathParam` decorator. The decorator reuquires a string parameter - the name of the parameter. The name must be present within the Path. For example `/books/:id`. One can access the id parameter parameter with `@PathParam('id')`|
+| @PathParam    | A method parameter may be decorated with the `@PathParam` decorator. The decorator requires a string parameter - the name of the parameter. The name must be present within the Path. For example `/books/:id`. One can access the id parameter parameter with `@PathParam('id')`|
 | @HeaderParam  | You can access the http header information in the same way as a path parameter. The difference is, that the value will be determined by a http header entry at runtime. For example if you want to access a token that is stored in the http header use: `@HeaderParam('token)`|
 | @QueryParam   | If you want to access url query parameters from your service use this decorator. For example in a url like this: `/books?readed=true` you can use `@QueryParam('readed')`|
 | @Context (HttpRequest, HttpResponse)  | Sometime it may be necessary to play around with the original HttpRequest or the HttpResponse. In this case you can use the `@Context` decorator. For Example `@Context(ContextTpyes.HttpRequest)`|
@@ -109,7 +109,7 @@ DELETE  /books/1                    -> true
 
 ## Supported Return Types
 
-So far we have seen that all servcie methods are synchronous. You can return simple javascript types or complex objects.
+So far we have seen that all service methods are synchronous. You can return simple javascript types or complex objects.
 If you simply return a boolean, number, string these values will be returned as text/plain. null or undefined are
 returned as text/plain if no HttpResponse-object is injected in the service method (in this case you have full control what should be returned to the client).
 If you returns a complex object the result will be send as application/json.
@@ -132,7 +132,7 @@ class TestService {
 }
 ```
 If you access the url '/' you will get `[{foo:'bar'}]` as the result. May be this is too much code for you - for me it is :smirk: .
-Keep in mind that there are a lot of node modules that already use promisses. For example mongoose. With this you service could be as short as:
+Keep in mind that there are a lot of node modules that already use promises. For example mongoose. With this you service could be as short as:
 
 ```TypeScript
 import {Path, GET, RolesAllowed} from 'js-restful';
@@ -152,7 +152,7 @@ export class UserService {
 
 ## Providing a ISecurityContextFactory
 If you decorate your service with `@RolesAllowed`, `@PermitAll` or you are using `@SecurityContext` as a parameter
-decorator you need to provide a `ISecurityContextFactory`. js-rstful-express need this factory to create a `ISecurityContext` to decide who is permitted to access
+decorator you need to provide a `ISecurityContextFactory`. js-restful-express need this factory to create a `ISecurityContext` to decide who is permitted to access
 the service or service method.
 
 This Factory must be registered at the `ExpressServiceRegistry` before you register your service classes:
@@ -211,11 +211,27 @@ export default class User implements IUser {
 }
 ```
 
+## Passing in a custom logger instance
+js-restful-express uses [winston](https://github.com/winstonjs/winston) for logging. You can override the default logger by initializing the registry with a config object before registering any services:
+
+```TypeScript
+import { ExpressServiceRegistry } from 'js-restful-express';
+import * as express from 'express';
+import { Logger, transports } from 'winston';
+
+const app = express();
+const logger = new Logger({...});
+
+ExpressServiceRegistry.initJsRestfulRegistry(app, {logger});
+ExpressServiceRegistry.registerService(app, {...});
+
+``` 
+
 ## Advantages
 You may ask: what is the advantage of using decorators and TypeScript for your app? Here are some thoughts why it is useful:
 
 - You may write less code you need to maintain and test.
 - You can refactor your code with minimal impact at other parts of your application. Just move or rename your service class will not break how your service may be accessed.
 - You can change who is allowed to access your service or service method without modifying your code. You just change the decorator.
-- You can test your services more easily - if you do not use HttpReqest or HttpResponse directly you don't need to mock these objects.
+- You can test your services more easily - if you do not use HttpRequest or HttpResponse directly you don't need to mock these objects.
 - May be you have a background in Java and know what [JAX-RS](https://jax-rs-spec.java.net) is. In this case you will be familiar with this approach.
