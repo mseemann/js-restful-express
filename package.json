@@ -46,7 +46,7 @@
     "@types/node": "^8.0.9",
     "@types/reflect-metadata": "0.0.5",
     "@types/serve-static": "^1.7.31",
-    "@types/superagent": "^2.0.34",
+    "@types/superagent": "^3.5.3",
     "@types/supertest": "^2.0.0",
     "@types/winston": "2.2.0",
     "chai": "^3.5.0",
